@@ -326,6 +326,16 @@ eq("応答: thinking", (ollamaResponseToOpenai({ model: M, created_at: "2026-11-
   reasoning: "t",
 });
 eq("応答: stream の途中", codes(ollamaResponseToOpenai({ model: M, message: { role: "assistant", content: "a" }, done: false })), ["streamResponse"]);
+// ストリームを丸ごと貼ったとき(Ollama Stream Reader へ案内する)
+{
+  const nd = [
+    JSON.stringify({ model: M, message: { role: "assistant", content: "a" }, done: false }),
+    JSON.stringify({ model: M, message: { role: "assistant", content: "" }, done: true, done_reason: "stop" }),
+  ].join("\n");
+  eq("ストリーム: NDJSON", codes(convert(nd, "auto")), ["streamResponse"]);
+  eq("ストリーム: SSE", codes(convert('data: {"id":"x","object":"chat.completion.chunk","choices":[]}\n\ndata: [DONE]', "auto")), ["streamResponse"]);
+  eq("ストリーム: 整形した1つの JSON は対象外", convert(JSON.stringify({ model: M, messages: [{ role: "user", content: "hi" }], max_tokens: 5 }, null, 2), "auto").kind, "openaiRequest");
+}
 eq("応答: created_at が無い", codes(ollamaResponseToOpenai({ model: M, message: { role: "assistant", content: "a" }, done: true })), ["createdAtMissing"]);
 eq("応答: 引数が無い", (ollamaResponseToOpenai({ model: M, created_at: "2026-11-05T22:35:59Z", message: { role: "assistant", content: "", tool_calls: [{ function: { name: "f" } }] }, done: true, done_reason: "stop" }).output as { choices: { message: { tool_calls: { function: { arguments: string } }[] } }[] }).choices[0].message.tool_calls[0].function.arguments, "{}");
 eq("auto: 応答", convert(JSON.stringify(FX_LEN_OLLAMA), "auto").kind, "ollamaResponse");

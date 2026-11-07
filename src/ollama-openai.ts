@@ -709,6 +709,19 @@ export function convert(text: string, mode: Mode): ConvertResult {
     rows: [],
   });
   if (!text.trim()) return empty([{ code: "inputEmpty", severity: "error" }]);
+  // ストリーミングの応答を丸ごと貼ったもの(/v1 の「data:」の行、または done を持つ JSON が1行ずつ)。
+  const lines = text.split(/\r?\n/).filter((l) => l.trim() !== "");
+  const ndjson =
+    lines.length > 1 &&
+    lines.every((l) => {
+      try {
+        const o = JSON.parse(l);
+        return isObj(o) && typeof o.done === "boolean";
+      } catch {
+        return false;
+      }
+    });
+  if (ndjson || lines.some((l) => /^data:/.test(l.trim()))) return empty([{ code: "streamResponse", severity: "error" }]);
   let v: unknown;
   try {
     v = JSON.parse(text);
