@@ -36,6 +36,7 @@ The TypeScript modules behind the free browser tools on [toolkitbox.net](https:/
 | `ollama-nginx.ts` | Builds an nginx server block in front of Ollama (authentication, HTTPS, streaming) | [Ollama nginx Config Generator](https://toolkitbox.net/en/tools/ollama-nginx-config) |
 | `ollama-api-request.ts` | Builds the JSON body and curl command for Ollama's `/api/chat` | [Ollama API Request Builder](https://toolkitbox.net/en/tools/ollama-api-request-builder) |
 | `ollama-openai.ts` | Converts chat requests between Ollama's `/api/chat` and its OpenAI-compatible `/v1/chat/completions` in both directions, and an `/api/chat` response into the OpenAI form, following Ollama's own conversion code (`openai/openai.go`); lists renamed, dropped and unmatched fields | [Ollama OpenAI Converter](https://toolkitbox.net/en/tools/ollama-openai-converter) |
+| `ollama-stream.ts` | Reads a streamed Ollama response (newline-delimited JSON from `/api/chat` or `/api/generate`, or server-sent events from `/v1/chat/completions`) and joins the text, thinking and tool calls back together; reports the stop reason, cut-off streams and errors, and the generation and prompt speed (counting only the prompt tokens that were not in the cache) | [Ollama Stream Reader](https://toolkitbox.net/en/tools/ollama-stream-reader) |
 
 ### Crawlers and web standards
 
