@@ -38,6 +38,7 @@ The TypeScript modules behind the free browser tools on [toolkitbox.net](https:/
 | `ollama-openai.ts` | Converts chat requests between Ollama's `/api/chat` and its OpenAI-compatible `/v1/chat/completions` in both directions, and an `/api/chat` response into the OpenAI form, following Ollama's own conversion code (`openai/openai.go`); lists renamed, dropped and unmatched fields | [Ollama OpenAI Converter](https://toolkitbox.net/en/tools/ollama-openai-converter) |
 | `ollama-stream.ts` | Reads a streamed Ollama response (newline-delimited JSON from `/api/chat` or `/api/generate`, or server-sent events from `/v1/chat/completions`) and joins the text, thinking and tool calls back together; reports the stop reason, cut-off streams and errors, and the generation and prompt speed (counting only the prompt tokens that were not in the cache) | [Ollama Stream Reader](https://toolkitbox.net/en/tools/ollama-stream-reader) |
 | `ollama-log.ts` | Reads an Ollama server log (`server.log`, `journalctl -u ollama`, `docker logs`): memory per model load (weights, KV cache, compute buffers, per device), layers on the GPU, context length, requests, the speed llama-server reports, and explained warnings such as prompt truncation, an oversized `num_ctx`, models that do not fit in memory and reloads. The check script runs against three real logs in `scripts/fixtures/ollama-log/` | [Ollama Log Reader](https://toolkitbox.net/en/tools/ollama-log-reader) |
+| `ollama-show.ts` | Reads the model details from Ollama's `/api/show` response or from `ollama show` (with or without `--verbose`): size, quantization, longest context, layers and attention heads, capabilities (the ten that Ollama v0.40.15 defines), thinking levels, the parameters, system prompt and license stored in the model, and the KV cache size (f16) at each context length. The KV cache formula matches the sizes Ollama logs; the check script runs against three real outputs and the example in Ollama's documentation in `scripts/fixtures/ollama-show/` | [Ollama Model Info Reader](https://toolkitbox.net/en/tools/ollama-model-info-reader) |
 
 ### Crawlers and web standards
 
@@ -52,7 +53,7 @@ The TypeScript modules behind the free browser tools on [toolkitbox.net](https:/
 | `csp.ts` | Reads a Content-Security-Policy header and points out weak settings | [CSP Analyzer](https://toolkitbox.net/en/tools/csp-analyzer) |
 | `cron-schedule.ts` | Parses a cron expression and finds the next run times | [Cron Next Run](https://toolkitbox.net/en/tools/cron-next-run) |
 
-`ollama-log-examples.ts` holds the excerpts of those logs that the site uses as examples. `locales.ts`, `robots-txt-messages.ts` and `unicode-inspect-messages.ts` hold the message text that the robots.txt and Unicode modules use in 14 languages.
+`ollama-log-examples.ts` and `ollama-show-examples.ts` hold the excerpts of those logs and outputs that the site uses as examples. `locales.ts`, `robots-txt-messages.ts` and `unicode-inspect-messages.ts` hold the message text that the robots.txt and Unicode modules use in 14 languages.
 
 ## Running the checks
 
