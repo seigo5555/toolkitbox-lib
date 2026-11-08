@@ -1,0 +1,265 @@
+{
+ "note": "Each case was written as a file and opened with the official Python package safetensors 0.8.0 (safe_open, framework numpy) on 2026-11-09. official = ok / err and the error message.",
+ "cases": {
+  "valid": {
+   "b64": "jQAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6eyJmb3JtYXQiOiJwdCJ9LCJhIjp7ImR0eXBlIjoiRjE2Iiwic2hhcGUiOlsyLDJdLCJkYXRhX29mZnNldHMiOlswLDhdfSwiYiI6eyJkdHlwZSI6Ikk2NCIsInNoYXBlIjpbMV0sImRhdGFfb2Zmc2V0cyI6WzgsMTZdfX0AAAAAAAAAAAAAAAAAAAAA",
+   "official": "ok",
+   "message": null
+  },
+  "dup": {
+   "b64": "bAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfSwiYSI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzgsMTZdfX0AAAAAAAAAAAAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid offset for tensor `a`"
+  },
+  "dup2": {
+   "b64": "awAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfSwiYSI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "ok",
+   "message": null
+  },
+  "leading_space": {
+   "b64": "NwAAAAAAAAAgeyJhIjp7ImR0eXBlIjoiRjMyIiwic2hhcGUiOlsyXSwiZGF0YV9vZmZzZXRzIjpbMCw4XX19AAAAAAAAAAA=",
+   "official": "ok",
+   "message": null
+  },
+  "pad_nul": {
+   "b64": "OAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: trailing characters at line 1 column 55"
+  },
+  "pad_space": {
+   "b64": "OQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0gICAAAAAAAAAAAA==",
+   "official": "ok",
+   "message": null
+  },
+  "pad_newline": {
+   "b64": "NwAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0KAAAAAAAAAAA=",
+   "official": "ok",
+   "message": null
+  },
+  "hole": {
+   "b64": "bQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfSwiYiI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzEyLDIwXX19AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid offset for tensor `b`"
+  },
+  "unordered": {
+   "b64": "bAAAAAAAAAB7ImIiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOls4LDE2XX0sImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAAAAAAAAAAAA",
+   "official": "ok",
+   "message": null
+  },
+  "overlap": {
+   "b64": "bAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfSwiYiI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzQsMTJdfX0AAAAAAAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid offset for tensor `b`"
+  },
+  "extra_bytes": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: incomplete metadata, file not fully covered"
+  },
+  "truncated": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: incomplete metadata, file not fully covered"
+  },
+  "size_mismatch": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzNdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAA==",
+   "official": "err",
+   "message": "Error while deserializing header: invalid shape, data type, or offset for tensor"
+  },
+  "unknown_dtype": {
+   "b64": "NQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJRNCIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: unknown variant `Q4`, expected one of `BOOL`, `F4`, `F6_E2M3`, `F6_E3M2`, `U8`, `I8`, `F8_E5M2`, `F8_E4M3`, `F8_E8M0`, `F8_E4M3FNUZ`, `F8_E5M2FNUZ`, `I16`, `U16`, `F16`, `BF16`, `I32`, `U32`, `F32`, `C64`, `F64`, `I64`, `U64` at line 1 column 53"
+  },
+  "lower_dtype": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJmMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAA==",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: unknown variant `f32`, expected one of `BOOL`, `F4`, `F6_E2M3`, `F6_E3M2`, `U8`, `I8`, `F8_E5M2`, `F8_E4M3`, `F8_E8M0`, `F8_E4M3FNUZ`, `F8_E5M2FNUZ`, `I16`, `U16`, `F16`, `BF16`, `I32`, `U32`, `F32`, `C64`, `F64`, `I64`, `U64` at line 1 column 54"
+  },
+  "meta_nonstring": {
+   "b64": "TQAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6eyJ4IjoxfSwiYSI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: integer `1`, expected a string at line 1 column 22"
+  },
+  "extra_field": {
+   "b64": "PgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdLCJmb28iOjF9fQAAAAAAAAAA",
+   "official": "ok",
+   "message": null
+  },
+  "missing_offsets": {
+   "b64": "IQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdfX0AAAAAAAAAAA==",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: missing field `data_offsets` at line 1 column 33"
+  },
+  "n_not_mult8": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAA==",
+   "official": "ok",
+   "message": null
+  },
+  "f4_odd": {
+   "b64": "NQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGNCIsInNoYXBlIjpbM10sImRhdGFfb2Zmc2V0cyI6WzAsMl19fQAA",
+   "official": "err",
+   "message": "Error while deserializing header: The slice is slicing for subbytes dtypes, and the slice does not end up at a byte boundary, this is invalid."
+  },
+  "f4_even": {
+   "b64": "NQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGNCIsInNoYXBlIjpbNF0sImRhdGFfb2Zmc2V0cyI6WzAsMl19fQAA",
+   "official": "ok",
+   "message": null
+  },
+  "f6": {
+   "b64": "OgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGNl9FMk0zIiwic2hhcGUiOls0XSwiZGF0YV9vZmZzZXRzIjpbMCwzXX19AAAA",
+   "official": "ok",
+   "message": null
+  },
+  "empty_tensor": {
+   "b64": "bQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzAsM10sImRhdGFfb2Zmc2V0cyI6WzAsMF19LCJiIjp7ImR0eXBlIjoiRjMyIiwic2hhcGUiOlsxXSwiZGF0YV9vZmZzZXRzIjpbMCw0XX19AAAAAA==",
+   "official": "ok",
+   "message": null
+  },
+  "scalar": {
+   "b64": "NQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGNjQiLCJzaGFwZSI6W10sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "ok",
+   "message": null
+  },
+  "neg_shape": {
+   "b64": "NwAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6Wy0yXSwiZGF0YV9vZmZzZXRzIjpbMCw4XX19AAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid value: integer `-2`, expected usize at line 1 column 55"
+  },
+  "bad_utf8": {
+   "b64": "NwAAAAAAAAB7ImH/Ijp7ImR0eXBlIjoiRjMyIiwic2hhcGUiOlsyXSwiZGF0YV9vZmZzZXRzIjpbMCw4XX19AAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid UTF-8 in header: invalid utf-8 sequence of 1 bytes from index 3"
+  },
+  "n_too_big_for_file": {
+   "b64": "6AMAAAAAAAB7ImEiOjF9",
+   "official": "err",
+   "message": "Error while deserializing header: invalid header length"
+  },
+  "header_too_large": {
+   "b64": "AeH1BQAAAAB7",
+   "official": "err",
+   "message": "Error while deserializing header: header too large"
+  },
+  "short": {
+   "b64": "AQI=",
+   "official": "err",
+   "message": "Error while deserializing header: header too small"
+  },
+  "no_tensors": {
+   "b64": "AgAAAAAAAAB7fQ==",
+   "official": "ok",
+   "message": null
+  },
+  "only_meta": {
+   "b64": "IAAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6eyJmb3JtYXQiOiJwdCJ9fQ==",
+   "official": "ok",
+   "message": null
+  },
+  "not_object": {
+   "b64": "AgAAAAAAAABbXQ==",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: sequence, expected struct HashMetadata at line 1 column 0"
+  },
+  "tensor_not_object": {
+   "b64": "BwAAAAAAAAB7ImEiOjV9",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: integer `5`, expected struct TensorInfo at line 1 column 7"
+  },
+  "float_shape": {
+   "b64": "OAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzIuMF0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: floating point `2.0`, expected usize at line 1 column 56"
+  },
+  "c64": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJDNjQiLCJzaGFwZSI6WzFdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAA==",
+   "official": "ok",
+   "message": null
+  },
+  "e8m0": {
+   "b64": "OgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGOF9FOE0wIiwic2hhcGUiOlsyXSwiZGF0YV9vZmZzZXRzIjpbMCwyXX19AAA=",
+   "official": "ok",
+   "message": null
+  },
+  "meta_null": {
+   "b64": "SgAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6bnVsbCwiYSI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "ok",
+   "message": null
+  },
+  "zero_dims_nonzero_offsets": {
+   "b64": "NgAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzBdLCJkYXRhX29mZnNldHMiOlswLDRdfX0AAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid shape, data type, or offset for tensor"
+  },
+  "p2_big_offset": {
+   "b64": "SQAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlsxODQ0Njc0NDA3MzcwOTU1MTYxNSw4XX19AAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid offset for tensor `a`"
+  },
+  "p2_bool_bits": {
+   "b64": "NwAAAAAAAAB7ImEiOnsiZHR5cGUiOiJCT09MIiwic2hhcGUiOlszXSwiZGF0YV9vZmZzZXRzIjpbMCwzXX19AAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: incomplete metadata, file not fully covered"
+  },
+  "p2_ctrl_char": {
+   "b64": "NwAAAAAAAAB7ImEBIjp7ImR0eXBlIjoiRjMyIiwic2hhcGUiOlsyXSwiZGF0YV9vZmZzZXRzIjpbMCw4XX19AAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: control character (\\u0000-\\u001F) found while parsing a string at line 1 column 4"
+  },
+  "p2_dtype_num": {
+   "b64": "MgAAAAAAAAB7ImEiOnsiZHR5cGUiOjEsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: integer `1`, expected string or map at line 1 column 50"
+  },
+  "p2_dup_field": {
+   "b64": "RAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: duplicate field `dtype` at line 1 column 68"
+  },
+  "p2_dup_meta": {
+   "b64": "aAAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6eyJ4IjoiMSJ9LCJfX21ldGFkYXRhX18iOnsieSI6IjIifSwiYSI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: duplicate field `__metadata__` at line 1 column 40"
+  },
+  "p2_dup_meta_key": {
+   "b64": "VwAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6eyJ4IjoiMSIsIngiOiIyIn0sImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0AAAAAAAAAAA==",
+   "official": "ok",
+   "message": null
+  },
+  "p2_end_lt_begin": {
+   "b64": "awAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzBdLCJkYXRhX29mZnNldHMiOlswLDBdfSwiYiI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzgsMF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid offset for tensor `b`"
+  },
+  "p2_exp_number": {
+   "b64": "OAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJlMF0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: floating point `2.0`, expected usize at line 1 column 56"
+  },
+  "p2_lone_surrogate": {
+   "b64": "OwAAAAAAAAB7Ilx1ZDgwMCI6eyJkdHlwZSI6IkYzMiIsInNoYXBlIjpbMl0sImRhdGFfb2Zmc2V0cyI6WzAsOF19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: unexpected end of hex escape at line 1 column 9"
+  },
+  "p2_meta_key_tensor": {
+   "b64": "YQAAAAAAAAB7Il9fbWV0YWRhdGFfXyI6eyJmb3JtYXQiOiJwdCJ9LCJfX21ldGFkYXRhX194Ijp7ImR0eXBlIjoiRjMyIiwic2hhcGUiOlsyXSwiZGF0YV9vZmZzZXRzIjpbMCw4XX19AAAAAAAAAAA=",
+   "official": "ok",
+   "message": null
+  },
+  "p2_offsets3": {
+   "b64": "OAAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDgsOV19fQAAAAAAAAAA",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid length 3, expected 2 elements in sequence at line 1 column 56"
+  },
+  "p2_shape_null": {
+   "b64": "NwAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6bnVsbCwiZGF0YV9vZmZzZXRzIjpbMCw4XX19AAAAAAAAAAA=",
+   "official": "err",
+   "message": "Error while deserializing header: invalid JSON in header: invalid type: null, expected a sequence at line 1 column 55"
+  },
+  "p2_tab_pad": {
+   "b64": "NwAAAAAAAAB7ImEiOnsiZHR5cGUiOiJGMzIiLCJzaGFwZSI6WzJdLCJkYXRhX29mZnNldHMiOlswLDhdfX0JAAAAAAAAAAA=",
+   "official": "ok",
+   "message": null
+  }
+ }
+}
