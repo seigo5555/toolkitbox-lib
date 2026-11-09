@@ -6,6 +6,8 @@
  * 値は reflect.Value に当たる GV で表す。型は Ollama のテンプレートに渡る型(string・int・float64・bool・
  * スライス・マップ・構造体・ポインター・interface{})だけを扱う。fmt の %v と encoding/json の出力も Go に合わせた。
  * scripts/check-ollama-template.ts で、Go 本物の text/template(Go 1.26.6)の出力と突き合わせている。
+ *
+ * 元のコードのライセンス(原文)は、toolkitbox-lib の THIRD_PARTY_NOTICES.md と、サイトの /licenses に載せている。
  */
 
 // ---------------------------------------------------------------- 型と値

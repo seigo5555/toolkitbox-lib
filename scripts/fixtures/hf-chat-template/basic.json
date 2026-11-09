@@ -1,0 +1,4937 @@
+[
+ {
+  "name": "b0",
+  "template": "a\n",
+  "ctx": {},
+  "expected": {
+   "out": "a"
+  }
+ },
+ {
+  "name": "b1",
+  "template": "a\n\n",
+  "ctx": {},
+  "expected": {
+   "out": "a\n"
+  }
+ },
+ {
+  "name": "b2",
+  "template": "a\r\nb\r\n",
+  "ctx": {},
+  "expected": {
+   "out": "a\nb"
+  }
+ },
+ {
+  "name": "b3",
+  "template": "a\rb",
+  "ctx": {},
+  "expected": {
+   "out": "a\nb"
+  }
+ },
+ {
+  "name": "b4",
+  "template": "{% if true %}\nx\n{% endif %}\ny",
+  "ctx": {},
+  "expected": {
+   "out": "x\ny"
+  }
+ },
+ {
+  "name": "b5",
+  "template": "  {% if true %}\n  x\n  {% endif %}\n",
+  "ctx": {},
+  "expected": {
+   "out": "  x\n"
+  }
+ },
+ {
+  "name": "b6",
+  "template": "a  {%- if true -%}  b  {%- endif -%}  c",
+  "ctx": {},
+  "expected": {
+   "out": "abc"
+  }
+ },
+ {
+  "name": "b7",
+  "template": "a {{- 1 -}} b",
+  "ctx": {},
+  "expected": {
+   "out": "a1b"
+  }
+ },
+ {
+  "name": "b8",
+  "template": "a {%+ if true %}b{% endif %}",
+  "ctx": {},
+  "expected": {
+   "out": "a b"
+  }
+ },
+ {
+  "name": "b9",
+  "template": "  {%+ if true %}x{% endif %}",
+  "ctx": {},
+  "expected": {
+   "out": "  x"
+  }
+ },
+ {
+  "name": "b10",
+  "template": "  {{ 1 }}\n",
+  "ctx": {},
+  "expected": {
+   "out": "  1"
+  }
+ },
+ {
+  "name": "b11",
+  "template": "\t{# c #}\nx",
+  "ctx": {},
+  "expected": {
+   "out": "x"
+  }
+ },
+ {
+  "name": "b12",
+  "template": "{# multi\nline #}y",
+  "ctx": {},
+  "expected": {
+   "out": "y"
+  }
+ },
+ {
+  "name": "b13",
+  "template": "a{#- c -#}  b",
+  "ctx": {},
+  "expected": {
+   "out": "ab"
+  }
+ },
+ {
+  "name": "b14",
+  "template": "{% raw %}{{ x }}{% endraw %}",
+  "ctx": {},
+  "expected": {
+   "out": "{{ x }}"
+  }
+ },
+ {
+  "name": "b15",
+  "template": "  {% raw %}\n{{ y }}\n  {% endraw %}\nz",
+  "ctx": {},
+  "expected": {
+   "out": "\n{{ y }}\nz"
+  }
+ },
+ {
+  "name": "b16",
+  "template": "{%- raw -%}  a  {%- endraw -%}",
+  "ctx": {},
+  "expected": {
+   "out": "a"
+  }
+ },
+ {
+  "name": "b17",
+  "template": "{{ 'a' 'b' }}",
+  "ctx": {},
+  "expected": {
+   "out": "ab"
+  }
+ },
+ {
+  "name": "b18",
+  "template": "{{ \"q\\\"x\" }}",
+  "ctx": {},
+  "expected": {
+   "out": "q\"x"
+  }
+ },
+ {
+  "name": "b19",
+  "template": "{{ 'a\\nb\\tc\\\\d' }}",
+  "ctx": {},
+  "expected": {
+   "out": "a\nb\tc\\d"
+  }
+ },
+ {
+  "name": "b20",
+  "template": "{{ '\\x41\\u3042\\U0001F600' }}",
+  "ctx": {},
+  "expected": {
+   "out": "Aあ😀"
+  }
+ },
+ {
+  "name": "b21",
+  "template": "{{ '\\d' }}",
+  "ctx": {},
+  "expected": {
+   "out": "\\d"
+  }
+ },
+ {
+  "name": "b22",
+  "template": "{{ 'é\\é' }}",
+  "ctx": {},
+  "expected": {
+   "out": "é\\xe9"
+  }
+ },
+ {
+  "name": "b23",
+  "template": "{{ 1_000 }} {{ 0x1F }} {{ 0o17 }} {{ 0b101 }} {{ 1e3 }} {{ 1_0.5 }} {{ 2.5e-3 }} {{ 007 }}",
+  "ctx": {},
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'end of print statement', got 'integer'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b24",
+  "template": "{{ 1.0 }} {{ 10/2 }} {{ 7//2 }} {{ -7//2 }} {{ 7%3 }} {{ -7%3 }} {{ 2**10 }} {{ 2**-1 }} {{ 7.5//2 }}",
+  "ctx": {},
+  "expected": {
+   "out": "1.0 5.0 3 -4 1 2 1024 0.5 3.0"
+  }
+ },
+ {
+  "name": "b25",
+  "template": "{{ 1/3 }} {{ 2/3 }} {{ 1e16 }} {{ 1e15 }} {{ 0.0001 }} {{ 0.00001 }} {{ 1e22 }} {{ 123456789.123456789 }} {{ -0.0 }}",
+  "ctx": {},
+  "expected": {
+   "out": "0.3333333333333333 0.6666666666666666 1e+16 1000000000000000.0 0.0001 1e-05 1e+22 123456789.12345679 -0.0"
+  }
+ },
+ {
+  "name": "b26",
+  "template": "{{ 0.1+0.2 }} {{ 1.5e300*1e10 }} {{ 3.0*2 }} {{ 2**100 }} {{ -2**2 }} {{ (-2)**2 }} {{ 2**3**2 }}",
+  "ctx": {},
+  "expected": {
+   "out": "0.30000000000000004 inf 6.0 1267650600228229401496703205376 4 4 64"
+  }
+ },
+ {
+  "name": "b27",
+  "template": "{{ 'ab' * 3 }} {{ [1,2] * 2 }} {{ 3 * 'x' }} {{ [1] + [2] }} {{ (1,) + (2,) }} {{ 'a' ~ 1 ~ none ~ true }}",
+  "ctx": {},
+  "expected": {
+   "out": "ababab [1, 2, 1, 2] xxx [1, 2] (1, 2) a1NoneTrue"
+  }
+ },
+ {
+  "name": "b28",
+  "template": "{{ true }} {{ True }} {{ none }} {{ None }} {{ false and 1 }} {{ 0 or 'x' }} {{ '' or [] }} {{ not 0 }}",
+  "ctx": {},
+  "expected": {
+   "out": "True True None None False x [] True"
+  }
+ },
+ {
+  "name": "b29",
+  "template": "{{ 1 if true }}|{{ 1 if false }}|{{ 1 if false else 2 }}|{{ 'a' if 0 else 'b' if 1 else 'c' }}",
+  "ctx": {},
+  "expected": {
+   "out": "1||2|b"
+  }
+ },
+ {
+  "name": "b30",
+  "template": "{{ 1 < 2 < 3 }} {{ 3 > 2 > 2 }} {{ 1 == 1.0 }} {{ 'a' != 'b' }} {{ 1 in [1,2] }} {{ 'b' in 'abc' }} {{ 3 not in [1] }} {{ 'k' in {'k':1} }}",
+  "ctx": {},
+  "expected": {
+   "out": "True False True True True True True True"
+  }
+ },
+ {
+  "name": "b31",
+  "template": "{{ [1,'a',none,true,1.5,[2],{'x':(1,2)}] }}",
+  "ctx": {},
+  "expected": {
+   "out": "[1, 'a', None, True, 1.5, [2], {'x': (1, 2)}]"
+  }
+ },
+ {
+  "name": "b32",
+  "template": "{{ {'a':1,'b':'c\\'d',1:2,none:3} }}",
+  "ctx": {},
+  "expected": {
+   "out": "{'a': 1, 'b': \"c'd\", 1: 2, None: 3}"
+  }
+ },
+ {
+  "name": "b33",
+  "template": "{{ ('a',) }} {{ () }} {{ (1,2) }}",
+  "ctx": {},
+  "expected": {
+   "out": "('a',) () (1, 2)"
+  }
+ },
+ {
+  "name": "b34",
+  "template": "{{ 'it\\'s' }}|{{ ['it\\'s', 'say \"hi\"', 'both \\'\"'] }}|{{ ['\\n\\t\\x00\\x7f\\u00e9\\u3042'] }}",
+  "ctx": {},
+  "expected": {
+   "out": "it's|[\"it's\", 'say \"hi\"', 'both \\'\"']|['\\n\\t\\x00\\x7féあ']"
+  }
+ },
+ {
+  "name": "b35",
+  "template": "{{ [1.0, 1e16, 0.1, -0.0, 1e-5] }}",
+  "ctx": {},
+  "expected": {
+   "out": "[1.0, 1e+16, 0.1, -0.0, 1e-05]"
+  }
+ },
+ {
+  "name": "b36",
+  "template": "{{ x }}",
+  "ctx": {},
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b37",
+  "template": "{{ x.y }}",
+  "ctx": {},
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b38",
+  "template": "{{ x['y'] }}",
+  "ctx": {},
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b39",
+  "template": "{{ m }}|{{ m.a }}|{{ m['a'] }}|{{ m.items }}|{{ m['items'] }}|{{ m.get('a') }}|{{ m.get('z', 5) }}|{{ m.keys() }}|{{ m.values() }}|{{ m.items() }}",
+  "ctx": {
+   "m": {
+    "a": 1,
+    "items": [
+     1,
+     2
+    ],
+    "b": null
+   }
+  },
+  "expected": {
+   "out": "{'a': 1, 'items': [1, 2], 'b': None}|1|1|<built-in method items of dict object at 0x0>|[1, 2]|1|5|dict_keys(['a', 'items', 'b'])|dict_values([1, [1, 2], None])|dict_items([('a', 1), ('items', [1, 2]), ('b', None)])"
+  }
+ },
+ {
+  "name": "b40",
+  "template": "{{ l[0] }}{{ l[-1] }}{{ l[1:] }}{{ l[::-1] }}{{ l[:-1] }}{{ l[5] }}|{{ l.0 }}|{{ l[1:2:1] }}|{{ s[1:3] }}{{ s[::-1] }}{{ s[-2] }}",
+  "ctx": {
+   "l": [
+    1,
+    2,
+    3
+   ],
+   "s": "héllo😀"
+  },
+  "expected": {
+   "out": "13[2, 3][3, 2, 1][1, 2]|1|[2]|él😀ollého"
+  }
+ },
+ {
+  "name": "b41",
+  "template": "{{ s|length }} {{ s[4] }} {{ s|list }} {{ s|reverse }}",
+  "ctx": {
+   "s": "a😀b"
+  },
+  "expected": {
+   "out": "3  ['a', '😀', 'b'] b😀a"
+  }
+ },
+ {
+  "name": "b42",
+  "template": "{{ l.append(1) }}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "error": "SecurityError",
+   "message": "access to attribute 'append' of 'list' object is unsafe.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b43",
+  "template": "{% set x = l.append %}ok",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "out": "ok"
+  }
+ },
+ {
+  "name": "b44",
+  "template": "{{ m.update({'a':2}) }}",
+  "ctx": {
+   "m": {}
+  },
+  "expected": {
+   "error": "SecurityError",
+   "message": "access to attribute 'update' of 'dict' object is unsafe.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b45",
+  "template": "{{ m.pop('a') }}",
+  "ctx": {
+   "m": {
+    "a": 1
+   }
+  },
+  "expected": {
+   "error": "SecurityError",
+   "message": "access to attribute 'pop' of 'dict' object is unsafe.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b46",
+  "template": "{{ l.index(2) }} {{ l.count(1) }} {{ l.copy() }} {{ m.copy() }}",
+  "ctx": {
+   "l": [
+    1,
+    2,
+    1
+   ],
+   "m": {
+    "a": 1
+   }
+  },
+  "expected": {
+   "out": "1 2 [1, 2, 1] {'a': 1}"
+  }
+ },
+ {
+  "name": "b47",
+  "template": "{{ ''.__class__ }}",
+  "ctx": {},
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b48",
+  "template": "{{ x._private }}",
+  "ctx": {
+   "x": {
+    "_private": 1
+   }
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b49",
+  "template": "{{ x['_private'] }}",
+  "ctx": {
+   "x": {
+    "_private": 1
+   }
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b50",
+  "template": "{{ ' a b '.strip() }}|{{ 'xxaxx'.strip('x') }}|{{ ' a'.lstrip() }}|{{ 'a '.rstrip() }}|{{ 'a,b,,c'.split(',') }}|{{ ' a  b '.split() }}|{{ 'a b c'.split(' ', 1) }}|{{ 'a b c'.rsplit(' ', 1) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "a b|a|a|a|['a', 'b', '', 'c']|['a', 'b']|['a', 'b c']|['a b', 'c']"
+  }
+ },
+ {
+  "name": "b51",
+  "template": "{{ 'Hello'.upper() }} {{ 'Hello'.lower() }} {{ 'hello world'.title() }} {{ 'hELLO'.capitalize() }} {{ 'Hi'.swapcase() }} {{ 'ß'.upper() }} {{ 'İ'.lower()|length }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "HELLO hello Hello World Hello hI SS 2"
+  }
+ },
+ {
+  "name": "b52",
+  "template": "{{ 'abc'.startswith('a') }} {{ 'abc'.startswith(('x','a')) }} {{ 'abc'.endswith('bc') }} {{ 'abc'.startswith('b', 1) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "True True True True"
+  }
+ },
+ {
+  "name": "b53",
+  "template": "{{ 'aXbXc'.replace('X','-') }} {{ 'aXbXc'.replace('X','-',1) }} {{ 'abc'.find('c') }} {{ 'abc'.find('z') }} {{ 'abcabc'.rfind('b') }} {{ 'abc'.index('b') }} {{ 'aaa'.count('a') }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "a-b-c a-bXc 2 -1 4 1 3"
+  }
+ },
+ {
+  "name": "b54",
+  "template": "{{ 'abc'.index('z') }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "error": "ValueError",
+   "message": "substring not found",
+   "line": 1
+  }
+ },
+ {
+  "name": "b55",
+  "template": "{{ '-'.join(['a','b']) }} {{ ', '.join(l) }} {{ 'x'.center(5) }}|{{ 'x'.ljust(3) }}|{{ 'x'.rjust(3,'*') }}|{{ '5'.zfill(3) }} {{ '-5'.zfill(4) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "a-b x, y   x  |x  |**x|005 -005"
+  }
+ },
+ {
+  "name": "b56",
+  "template": "{{ 'a1'.isalnum() }} {{ 'a'.isalpha() }} {{ '12'.isdigit() }} {{ ' '.isspace() }} {{ 'abc'.islower() }} {{ 'ABC'.isupper() }} {{ 'Ab Cd'.istitle() }} {{ ''.isalpha() }} {{ '١٢'.isdigit() }} {{ 'x_1'.isidentifier() }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "True True True True True True True False True True"
+  }
+ },
+ {
+  "name": "b57",
+  "template": "{{ 'a\\nb\\r\\nc'.splitlines() }} {{ 'a\\nb\\n'.splitlines(true) }} {{ 'a=b=c'.partition('=') }} {{ 'a=b=c'.rpartition('=') }} {{ 'prefix_x'.removeprefix('prefix_') }} {{ 'x.py'.removesuffix('.py') }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "['a', 'b', 'c'] ['a\\n', 'b\\n'] ('a', '=', 'b=c') ('a=b', '=', 'c') x x"
+  }
+ },
+ {
+  "name": "b58",
+  "template": "{{ '{} and {}'.format(1, 'b') }}|{{ '{0}{1}{0}'.format('a','b') }}|{{ '{x}!'.format(x=3) }}|{{ '{:>5}|{:<5}|{:^5}'.format('a','b','c') }}|{{ '{:.2f} {:5d} {:05.1f} {:x} {:e} {:,}'.format(3.14159, 42, 2.5, 255, 12345.678, 1234567) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "1 and b|aba|3!|    a|b    |  c  |3.14    42 002.5 ff 1.234568e+04 1,234,567"
+  }
+ },
+ {
+  "name": "b59",
+  "template": "{{ '{!r} {!s}'.format('a', 'b') }}|{{ '{0[a]} {0[b]}'.format({'a':1,'b':2}) }}|{{ '{{x}}'.format() }}|{{ '{:%}'.format(0.25) }}|{{ '{:g}'.format(1e20) }}|{{ '{:+d}'.format(5) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "'a' b|1 2|{x}|25.000000%|1e+20|+5"
+  }
+ },
+ {
+  "name": "b60",
+  "template": "{{ '%s and %s' % ('a', 'b') }}|{{ '%d%%' % 50 }}|{{ '%5.2f' % 3.14159 }}|{{ '%r' % 'x' }}|{{ '%(a)s' % {'a': 1} }}|{{ '%x %o %e %g %c' % (255, 8, 1234.5, 0.00001, 65) }}|{{ '%-5s|' % 'a' }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "a and b|50%| 3.14|'x'|1|ff 10 1.234500e+03 1e-05 A|a    |"
+  }
+ },
+ {
+  "name": "b61",
+  "template": "{{ '%s' % [1,2] }}|{{ '%s %s' % [1,2] }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "not enough arguments for format string",
+   "line": 1
+  }
+ },
+ {
+  "name": "b62",
+  "template": "{{ 'abc'|upper }} {{ 'ABC'|lower }} {{ 'hello world'|title }} {{ 'hello WORLD'|capitalize }} {{ '  x  '|trim }}|{{ 'xxaxx'|trim('x') }} {{ 'a b'|replace(' ', '_') }} {{ 'aaa'|replace('a','b',2) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "ABC abc Hello World Hello world x|a a_b bba"
+  }
+ },
+ {
+  "name": "b63",
+  "template": "{{ 'x'|center(5) }}|{{ 'hello world foo bar'|truncate(9) }}|{{ 'hello world foo bar'|truncate(9, true) }}|{{ 'hello world foo bar'|truncate(11, false, '..', 0) }}|{{ 'abc'|truncate(5) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "  x  |hello...|hello ...|hello..|abc"
+  }
+ },
+ {
+  "name": "b64",
+  "template": "{{ 'one two three'|wordcount }} {{ 'a\\nb\\nc'|indent }}|{{ 'a\\n\\nb'|indent(2, true) }}|{{ 'a\\n\\nb'|indent(2, false, true) }}|{{ 'a\\nb'|indent('>> ') }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "3 a\n    b\n    c|  a\n\n  b|a\n  \n  b|a\n>> b"
+  }
+ },
+ {
+  "name": "b65",
+  "template": "{{ 'The quick brown fox jumps over the lazy dog'|wordwrap(10) }}|{{ 'abcdefghijklmnop'|wordwrap(5) }}|{{ 'abcdefghij klmnop'|wordwrap(5, false) }}|{{ 'a-b-c-d-e-f-g'|wordwrap(4) }}|{{ 'a b'|wordwrap(10, wrapstring='<br>') }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "The quick\nbrown fox\njumps over\nthe lazy\ndog|abcde\nfghij\nklmno\np|abcdefghij\nklmnop|a-b-\nc-d-\ne-\nf-g|a b"
+  }
+ },
+ {
+  "name": "b66",
+  "template": "{{ '<b>x</b> &amp; y'|striptags }}|{{ '<a>'|e }}|{{ '<a>'|escape }}|{{ '<a>'|forceescape }}|{{ ('<a>'|safe) ~ '<b>' }}|{{ ('<a>'|safe) + '<b>' }}|{{ '<a>'|safe|e }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "x & y|&lt;a&gt;|&lt;a&gt;|&lt;a&gt;|<a><b>|<a>&lt;b&gt;|<a>"
+  }
+ },
+ {
+  "name": "b67",
+  "template": "{{ 'a b&c'|urlencode }} {{ {'a':'x y','b':1}|urlencode }} {{ [('a',1),('b','é')]|urlencode }} {{ '/path?q=1'|urlencode }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "a%20b%26c a=x+y&b=1 a=1&b=%C3%A9 /path%3Fq%3D1"
+  }
+ },
+ {
+  "name": "b68",
+  "template": "{{ 'see http://example.com and www.foo.org or mail@x.com'|urlize }}|{{ 'http://example.com/very/long/path'|urlize(15) }}|{{ 'https://a.b'|urlize(nofollow=true, target='_blank') }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "see <a href=\"http://example.com\" rel=\"noopener\">http://example.com</a> and <a href=\"https://www.foo.org\" rel=\"noopener\">www.foo.org</a> or <a href=\"mailto:mail@x.com\">mail@x.com</a>|<a href=\"http://example.com/very/long/path\" rel=\"noopener\">http://example....</a>|https://a.b"
+  }
+ },
+ {
+  "name": "b69",
+  "template": "{{ '%s-%s'|format('a', 'b') }} {{ '%(x)s'|format(x=1) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "a-b 1"
+  }
+ },
+ {
+  "name": "b70",
+  "template": "{{ 1000|filesizeformat }} {{ 1|filesizeformat }} {{ 999|filesizeformat }} {{ 1500000|filesizeformat }} {{ 1024|filesizeformat(true) }} {{ 1e30|filesizeformat }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": "1.0 kB 1 Byte 999 Bytes 1.5 MB 1.0 KiB 1000000.0 YB"
+  }
+ },
+ {
+  "name": "b71",
+  "template": "{{ {'a':1}|xmlattr }}|{{ {'a':'<x>', 'b': none, 'c': true}|xmlattr(false) }}",
+  "ctx": {
+   "l": [
+    "x",
+    "y"
+   ]
+  },
+  "expected": {
+   "out": " a=\"1\"|a=\"&lt;x&gt;\" c=\"True\""
+  }
+ },
+ {
+  "name": "b72",
+  "template": "{{ -3|abs }} {{ (-3.5)|abs }} {{ '42'|int }} {{ '4.7'|int }} {{ 'x'|int }} {{ 'x'|int(7) }} {{ '0x1A'|int(0, 16) }} {{ 'ff'|int(base=16) }} {{ 3.9|int }} {{ true|int }} {{ none|int }}",
+  "ctx": {},
+  "expected": {
+   "out": "3 3.5 42 4 0 7 26 255 3 1 0"
+  }
+ },
+ {
+  "name": "b73",
+  "template": "{{ '3.5'|float }} {{ 'x'|float }} {{ 2|float }} {{ 'inf'|float }} {{ 'nan'|float }} {{ '1e3'|float }}",
+  "ctx": {},
+  "expected": {
+   "out": "3.5 0.0 2.0 inf nan 1000.0"
+  }
+ },
+ {
+  "name": "b74",
+  "template": "{{ 2.5|round }} {{ 3.5|round }} {{ 2.675|round(2) }} {{ 2.1|round(0, 'ceil') }} {{ 2.9|round(method='floor') }} {{ 5|round }} {{ 1234|round(-2) }} {{ 15|round(-1) }}",
+  "ctx": {},
+  "expected": {
+   "out": "2.0 4.0 2.67 3.0 2.0 5 1200 20"
+  }
+ },
+ {
+  "name": "b75",
+  "template": "{{ [3,1,2]|sum }} {{ [1.5,2]|sum }} {{ [{'v':1},{'v':2}]|sum(attribute='v') }} {{ [[1],[2]]|sum(start=[]) }} {{ []|sum }}",
+  "ctx": {},
+  "expected": {
+   "out": "6 3.5 3 [1, 2] 0"
+  }
+ },
+ {
+  "name": "b76",
+  "template": "{{ [3,1,2]|max }} {{ [3,1,2]|min }} {{ ['B','a','C']|max }} {{ ['B','a','C']|max(true) }} {{ []|max }}|{{ [{'n':2},{'n':5}]|max(attribute='n') }}",
+  "ctx": {},
+  "expected": {
+   "out": "3 1 C a |{'n': 5}"
+  }
+ },
+ {
+  "name": "b77",
+  "template": "{{ 7 is odd }} {{ 7 is even }} {{ 9 is divisibleby 3 }} {{ 9 is divisibleby(2) }} {{ 1 is number }} {{ 1.5 is float }} {{ 1 is integer }} {{ true is integer }} {{ true is boolean }} {{ none is none }}",
+  "ctx": {},
+  "expected": {
+   "out": "True False True False True True True False True True"
+  }
+ },
+ {
+  "name": "b78",
+  "template": "{{ l|first }} {{ l|last }} {{ []|first }}|{{ l|length }} {{ l|count }} {{ l|list }} {{ l|join(',') }} {{ l|reverse|list }} {{ l|sort }} {{ l|sort(reverse=true) }} {{ l|unique|list }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "a c |3 3 ['a', 'b', 'c'] a,b,c ['c', 'b', 'a'] ['a', 'b', 'c'] ['c', 'b', 'a'] ['a', 'b', 'c']"
+  }
+ },
+ {
+  "name": "b79",
+  "template": "{{ ['b','A','a','C']|sort }} {{ ['b','A','a','C']|sort(case_sensitive=true) }} {{ ['b','A','a']|unique|list }} {{ ['b','A','a']|unique(true)|list }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "['A', 'a', 'b', 'C'] ['A', 'C', 'a', 'b'] ['b', 'A'] ['b', 'A', 'a']"
+  }
+ },
+ {
+  "name": "b80",
+  "template": "{{ d|sort(attribute='n') }} {{ d|sort(attribute='n,s') }} {{ d|map(attribute='s')|list }} {{ d|map(attribute='z', default='-')|list }} {{ d|selectattr('n','gt',1)|list }} {{ d|rejectattr('n','eq',1)|list }} {{ d|selectattr('flag')|list }} {{ d|map(attribute='s')|join('|') }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "[{'n': 1, 's': 'y'}, {'n': 2, 's': 'x', 'flag': True}, {'n': 2, 's': 'z', 'flag': 0}] [{'n': 1, 's': 'y'}, {'n': 2, 's': 'x', 'flag': True}, {'n': 2, 's': 'z', 'flag': 0}] ['x', 'y', 'z'] ['-', '-', '-'] [{'n': 2, 's': 'x', 'flag': True}, {'n': 2, 's': 'z', 'flag': 0}] [{'n': 2, 's': 'x', 'flag': True}, {'n': 2, 's': 'z', 'flag': 0}] [{'n': 2, 's': 'x', 'flag': True}] x|y|z"
+  }
+ },
+ {
+  "name": "b81",
+  "template": "{{ l|map('upper')|list }} {{ l|select('equalto','b')|list }} {{ l|reject('equalto','b')|list }} {{ [0,1,'',2,none]|select|list }} {{ [1,2,3,4]|select('odd')|list }} {{ [1,2,3]|map('string')|join }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "['A', 'B', 'C'] ['b'] ['a', 'c'] [1, 2] [1, 3] 123"
+  }
+ },
+ {
+  "name": "b82",
+  "template": "{{ l|batch(2)|list }} {{ l|batch(2, 'X')|list }} {{ [1,2,3,4,5]|slice(2)|list }} {{ [1,2,3,4,5]|slice(3, 0)|list }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "[['a', 'b'], ['c']] [['a', 'b'], ['c', 'X']] [[1, 2, 3], [4, 5]] [[1, 2], [3, 4], [5, 0]]"
+  }
+ },
+ {
+  "name": "b83",
+  "template": "{% for g in d|groupby('n') %}[{{ g.grouper }}:{{ g.list|map(attribute='s')|join }}]{% endfor %}{{ d|groupby('n') }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "[1:y][2:xz][(1, [{'n': 1, 's': 'y'}]), (2, [{'n': 2, 's': 'x', 'flag': True}, {'n': 2, 's': 'z', 'flag': 0}])]"
+  }
+ },
+ {
+  "name": "b84",
+  "template": "{% for k, v in {'b':1,'A':2,'a':3}|dictsort %}{{ k }}={{ v }};{% endfor %}|{{ {'b':1,'a':3}|dictsort(by='value', reverse=true) }}|{{ {'x':1}|items|list }}|{{ none|items|list }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "Can only get item pairs from a mapping.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b85",
+  "template": "{{ l|map('upper') }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "<generator object sync_do_map at 0x0>"
+  }
+ },
+ {
+  "name": "b86",
+  "template": "{{ l|select }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "<generator object select_or_reject at 0x0>"
+  }
+ },
+ {
+  "name": "b87",
+  "template": "{{ (l|map('upper'))|length }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "object of type 'generator' has no len()",
+   "line": 1
+  }
+ },
+ {
+  "name": "b88",
+  "template": "{{ l|reverse }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "<list_reverseiterator object at 0x0>"
+  }
+ },
+ {
+  "name": "b89",
+  "template": "{{ {'a':1}|items }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "<generator object do_items at 0x0>"
+  }
+ },
+ {
+  "name": "b90",
+  "template": "{{ l|unique }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "<generator object sync_do_unique at 0x0>"
+  }
+ },
+ {
+  "name": "b91",
+  "template": "{{ range(3) }} {{ range(1,10,3)|list }} {{ range(3)|length }} {{ range(5)[1:3] }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "range(0, 3) [1, 4, 7] 3 range(1, 3)"
+  }
+ },
+ {
+  "name": "b92",
+  "template": "{{ l|random in l }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "b93",
+  "template": "{{ l|pprint }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "['a', 'b', 'c']"
+  }
+ },
+ {
+  "name": "b94",
+  "template": "{{ d|pprint }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "[{'flag': True, 'n': 2, 's': 'x'},\n {'n': 1, 's': 'y'},\n {'flag': 0, 'n': 2, 's': 'z'}]"
+  }
+ },
+ {
+  "name": "b95",
+  "template": "{{ {'k': 'v'*50, 'k2': ['x'*30, 'y'*30, {'z': 1}]}|pprint }}",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "{'k': 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv',\n 'k2': ['xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',\n        'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',\n        {'z': 1}]}"
+  }
+ },
+ {
+  "name": "b96",
+  "template": "{{ l|string }} {{ 1|string }} {{ none|string }} {{ l|attr('count') }} {{ l|attr('nope') }}|{{ d[0]|attr('n') }}|",
+  "ctx": {
+   "l": [
+    "a",
+    "b",
+    "c"
+   ],
+   "d": [
+    {
+     "n": 2,
+     "s": "x",
+     "flag": true
+    },
+    {
+     "n": 1,
+     "s": "y"
+    },
+    {
+     "n": 2,
+     "s": "z",
+     "flag": 0
+    }
+   ]
+  },
+  "expected": {
+   "out": "['a', 'b', 'c'] 1 None <built-in method count of list object at 0x0> ||"
+  }
+ },
+ {
+  "name": "b97",
+  "template": "{{ x|default('d') }} {{ x|d('d') }} {{ ''|default('d') }} {{ ''|default('d', true) }} {{ none|default('d') }} {{ none|default('d', true) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "d d  d None d"
+  }
+ },
+ {
+  "name": "b98",
+  "template": "{{ x is defined }} {{ x is undefined }} {{ y is defined }} {{ y.z is defined }} {{ y.a is defined }} {{ y['a'] is none }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "False True True False True True"
+  }
+ },
+ {
+  "name": "b99",
+  "template": "{{ x }}|{{ x|length }}|{{ x|list }}|{{ x|string }}|{% for i in x %}no{% else %}empty{% endfor %}|{{ 'a' in x }}|{{ x == x }}|{{ not x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "|0|[]||empty|False|True|True"
+  }
+ },
+ {
+  "name": "b100",
+  "template": "{{ x + 1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b101",
+  "template": "{{ x.a }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b102",
+  "template": "{{ x.a.b }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b103",
+  "template": "{{ y.a.b }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b104",
+  "template": "{{ y.q }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b105",
+  "template": "{{ y[0] }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b106",
+  "template": "{{ x() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b107",
+  "template": "{{ x|upper }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b108",
+  "template": "{{ x ~ 'a' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "a"
+  }
+ },
+ {
+  "name": "b109",
+  "template": "{{ x|int }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b110",
+  "template": "{{ x|join }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b111",
+  "template": "{{ x|trim }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b112",
+  "template": "{{ x|tojson }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "Object of type Undefined is not JSON serializable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b113",
+  "template": "{{ x[0] }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b114",
+  "template": "{{ y.a.missing }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b115",
+  "template": "{{ [1][5] }}|{{ 'abc'.missing }}|{{ none.x }}|",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "|||"
+  }
+ },
+ {
+  "name": "b116",
+  "template": "{{ none.x.y }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'None' has no attribute 'x'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b117",
+  "template": "{{ 1 + 'a' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported operand type(s) for +: 'int' and 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b118",
+  "template": "{{ 'a' + 1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"int\") to str",
+   "line": 1
+  }
+ },
+ {
+  "name": "b119",
+  "template": "{{ 'a' - 1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported operand type(s) for -: 'str' and 'int'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b120",
+  "template": "{{ [1] + 'a' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate list (not \"str\") to list",
+   "line": 1
+  }
+ },
+ {
+  "name": "b121",
+  "template": "{{ 1 < 'a' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'<' not supported between instances of 'int' and 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b122",
+  "template": "{{ none < 1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'<' not supported between instances of 'NoneType' and 'int'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b123",
+  "template": "{{ {} < {} }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'<' not supported between instances of 'dict' and 'dict'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b124",
+  "template": "{{ 1/0 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "ZeroDivisionError",
+   "message": "division by zero",
+   "line": 1
+  }
+ },
+ {
+  "name": "b125",
+  "template": "{{ 1//0 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "ZeroDivisionError",
+   "message": "division by zero",
+   "line": 1
+  }
+ },
+ {
+  "name": "b126",
+  "template": "{{ 1%0 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "ZeroDivisionError",
+   "message": "division by zero",
+   "line": 1
+  }
+ },
+ {
+  "name": "b127",
+  "template": "{{ 1.0/0 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "ZeroDivisionError",
+   "message": "division by zero",
+   "line": 1
+  }
+ },
+ {
+  "name": "b128",
+  "template": "{{ -'a' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "bad operand type for unary -: 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b129",
+  "template": "{{ 'a'[5] }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b130",
+  "template": "{{ {}['k'] }}|",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "|"
+  }
+ },
+ {
+  "name": "b131",
+  "template": "{{ 5 in 5 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "argument of type 'int' is not a container or iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b132",
+  "template": "{{ 1 in 'abc' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'in <string>' requires string as left operand, not int",
+   "line": 1
+  }
+ },
+ {
+  "name": "b133",
+  "template": "{{ [1,2] < [1,3] }} {{ (1,'a') < (1,'b') }} {{ 'a' < 'b' }} {{ true < 2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True True True True"
+  }
+ },
+ {
+  "name": "b134",
+  "template": "{{ raise_exception('boom') }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateError",
+   "message": "boom",
+   "line": 1
+  }
+ },
+ {
+  "name": "b135",
+  "template": "line1\n{{ raise_exception('on line 2') }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateError",
+   "message": "on line 2",
+   "line": 2
+  }
+ },
+ {
+  "name": "b136",
+  "template": "{% if true %}\n\n{{ x.y.z }}{% endif %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 3
+  }
+ },
+ {
+  "name": "b137",
+  "template": "{{ 'a' is string }} {{ 1 is string }} {{ {} is mapping }} {{ [] is mapping }} {{ [] is sequence }} {{ 'a' is sequence }} {{ {} is sequence }} {{ 1 is sequence }} {{ [] is iterable }} {{ 'a' is iterable }} {{ 1 is iterable }} {{ x is iterable }}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "out": "True False True False True True True False True True False True"
+  }
+ },
+ {
+  "name": "b138",
+  "template": "{{ 'abc' is lower }} {{ 'ABC' is upper }} {{ 1 is callable }} {{ range is callable }} {{ 'upper' is filter }} {{ 'odd' is test }} {{ 'nope' is filter }} {{ 1 is in [1] }} {{ 1 is eq 1 }} {{ 2 is gt 1 }} {{ 2 is ge 2 }} {{ 1 is lt 2 }} {{ 1 is le 0 }} {{ 1 is ne 1 }} {{ 1 is equalto 1 }} {{ 1 is greaterthan 0 }} {{ 1 is lessthan 0 }}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "out": "True True False True True True False True True True True True False False True True False"
+  }
+ },
+ {
+  "name": "b139",
+  "template": "{{ 1 is sameas 1 }} {{ none is sameas none }} {{ [] is sameas [] }} {{ l is sameas l }} {{ true is true }} {{ 1 is true }} {{ false is false }} {{ 0 is false }} {{ '<'|safe is escaped }} {{ '<' is escaped }}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "out": "True True False True True False True False True False"
+  }
+ },
+ {
+  "name": "b140",
+  "template": "{{ 1 is not none }} {{ x is not defined }} {{ 1 is nosuchtest }}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "error": "TemplateAssertionError",
+   "message": "No test named 'nosuchtest'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b141",
+  "template": "{% if 1 is nosuchtest %}a{% endif %}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "error": "TemplateRuntimeError",
+   "message": "No test named 'nosuchtest' found.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b142",
+  "template": "{{ 1 is defined is defined }}",
+  "ctx": {
+   "l": [
+    1
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "You cannot chain multiple tests with is",
+   "line": 1
+  }
+ },
+ {
+  "name": "b143",
+  "template": "{% set x = 0 %}{% for i in range(3) %}{% set x = x + 1 %}{{ x }}{% endfor %}|{{ x }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "111|0"
+  }
+ },
+ {
+  "name": "b144",
+  "template": "{% set ns = namespace(x=0) %}{% for i in range(3) %}{% set ns.x = ns.x + i %}{% endfor %}{{ ns.x }}|{{ ns }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "3|<Namespace {'x': 3}>"
+  }
+ },
+ {
+  "name": "b145",
+  "template": "{% for i in range(3) %}{% if i == 1 %}{% set y = 'one' %}{% endif %}{{ y }},{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": ",one,,"
+  }
+ },
+ {
+  "name": "b146",
+  "template": "{% if true %}{% set z = 5 %}{% endif %}{{ z }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "5"
+  }
+ },
+ {
+  "name": "b147",
+  "template": "{{ a }}{% set a = 1 %}{{ a }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b148",
+  "template": "{% for i in range(2) %}{{ q }}{% set q = i %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b149",
+  "template": "{% for i in [1,2,3] %}{{ loop.index }}{{ loop.index0 }}{{ loop.revindex }}{{ loop.revindex0 }}{{ loop.first }}{{ loop.last }}{{ loop.length }};{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1032TrueFalse3;2121FalseFalse3;3210FalseTrue3;"
+  }
+ },
+ {
+  "name": "b150",
+  "template": "{% for i in [1,2,3] %}{{ loop.previtem }}-{{ loop.nextitem }}-{{ loop.cycle('a','b') }}-{{ loop.changed(i > 1) }};{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "-2-a-True;1-3-b-True;2--a-False;"
+  }
+ },
+ {
+  "name": "b151",
+  "template": "{% for i in [1,2,3] if i != 2 %}{{ i }}{{ loop.index }}{{ loop.last }};{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "11False;32True;"
+  }
+ },
+ {
+  "name": "b152",
+  "template": "{% for i in [] %}x{% else %}none{% endfor %}|{% for i in [1] if false %}x{% else %}filtered{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "none|filtered"
+  }
+ },
+ {
+  "name": "b153",
+  "template": "{% for a, b in [(1,2),(3,4)] %}{{ a }}{{ b }}{% endfor %}|{% for k, v in {'x':1}.items() %}{{ k }}{{ v }}{% endfor %}|{% for c in 'ab' %}{{ c }}{% endfor %}|{% for k in {'p':1,'q':2} %}{{ k }}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1234|x1|ab|pq"
+  }
+ },
+ {
+  "name": "b154",
+  "template": "{% for a, b in [(1,2,3)] %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "ValueError",
+   "message": "too many values to unpack (expected 2, got 3)",
+   "line": 1
+  }
+ },
+ {
+  "name": "b155",
+  "template": "{% for a, b in [1] %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "cannot unpack non-iterable int object",
+   "line": 1
+  }
+ },
+ {
+  "name": "b156",
+  "template": "{% for i in 5 %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'int' object is not iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b157",
+  "template": "{% for i in none %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'NoneType' object is not iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b158",
+  "template": "{% for i in range(10) %}{% if i == 2 %}{% continue %}{% endif %}{% if i == 5 %}{% break %}{% endif %}{{ i }}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "0134"
+  }
+ },
+ {
+  "name": "b159",
+  "template": "{% for i in [1,2] %}{% for j in [3,4] %}{{ loop.index }}{{ i }}{{ j }} {% endfor %}{{ loop.index }}|{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "113 214 1|123 224 2|"
+  }
+ },
+ {
+  "name": "b160",
+  "template": "{% for item in tree recursive %}{{ item.name }}{% if item.children %}[{{ loop(item.children) }}]{% endif %}{{ loop.depth }}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "a[b2]1c1"
+  }
+ },
+ {
+  "name": "b161",
+  "template": "{% for i in range(3) %}{{ loop }}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "<LoopContext 1/3><LoopContext 2/3><LoopContext 3/3>"
+  }
+ },
+ {
+  "name": "b162",
+  "template": "{{ loop }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b163",
+  "template": "{% for loop in [1] %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateAssertionError",
+   "message": "Can't assign to special loop variable in for-loop target",
+   "line": 1
+  }
+ },
+ {
+  "name": "b164",
+  "template": "{% for i in [1] %}{{ i }}{% endfor %}{{ i }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b165",
+  "template": "{% set a, b = 1, 2 %}{{ a }}{{ b }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "12"
+  }
+ },
+ {
+  "name": "b166",
+  "template": "{% set a, b = [1] %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "ValueError",
+   "message": "not enough values to unpack (expected 2, got 1)",
+   "line": 1
+  }
+ },
+ {
+  "name": "b167",
+  "template": "{% set t = 1, 2 %}{{ t }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "(1, 2)"
+  }
+ },
+ {
+  "name": "b168",
+  "template": "{% set x %}inner {{ 1 }}{% endset %}[{{ x }}]",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "[inner 1]"
+  }
+ },
+ {
+  "name": "b169",
+  "template": "{% set x | upper %}abc{% endset %}{{ x }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "ABC"
+  }
+ },
+ {
+  "name": "b170",
+  "template": "{% with a = 1, b = 2 %}{{ a + b }}{% endwith %}{{ a }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "3"
+  }
+ },
+ {
+  "name": "b171",
+  "template": "{% with %}{% set w = 1 %}{{ w }}{% endwith %}{{ w }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b172",
+  "template": "{% macro m(a, b=2) %}{{ a }}-{{ b }}{% endmacro %}{{ m(1) }} {{ m(1, 3) }} {{ m(b=5, a=4) }} {{ m }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1-2 1-3 4-5 <Macro 'm'>"
+  }
+ },
+ {
+  "name": "b173",
+  "template": "{% macro m(a) %}{{ varargs }}{{ kwargs }}{% endmacro %}{{ m(1, 2, 3, x=4) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "(2, 3){'x': 4}"
+  }
+ },
+ {
+  "name": "b174",
+  "template": "{% macro m(a) %}{{ a }}{% endmacro %}{{ m(1, 2) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "macro 'm' takes not more than 1 argument(s)",
+   "line": 1
+  }
+ },
+ {
+  "name": "b175",
+  "template": "{% macro m(a) %}{{ a }}{% endmacro %}{{ m(z=1) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "macro 'm' takes no keyword argument 'z'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b176",
+  "template": "{% macro m(a) %}[{{ a }}]{% endmacro %}{{ m() }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "[]"
+  }
+ },
+ {
+  "name": "b177",
+  "template": "{% macro m() %}<{{ caller() }}>{% endmacro %}{% call m() %}inside{% endcall %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "<inside>"
+  }
+ },
+ {
+  "name": "b178",
+  "template": "{% macro m() %}{% for i in range(2) %}{{ caller(i) }}{% endfor %}{% endmacro %}{% call(x) m() %}[{{ x }}]{% endcall %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "[0][1]"
+  }
+ },
+ {
+  "name": "b179",
+  "template": "{% set g = 'G' %}{% macro m() %}{{ g }}{% endmacro %}{% set g = 'H' %}{{ m() }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "H"
+  }
+ },
+ {
+  "name": "b180",
+  "template": "{% macro m() %}{% set inner = 1 %}{{ inner }}{% endmacro %}{{ m() }}{{ inner }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b181",
+  "template": "{% macro outer() %}{% macro inner() %}in{% endmacro %}{{ inner() }}{% endmacro %}{{ outer() }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "in"
+  }
+ },
+ {
+  "name": "b182",
+  "template": "{% macro m(x) %}{{ x }}{% endmacro %}{{ m.name }} {{ m.arguments }} {{ m.catch_kwargs }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "m ('x',) False"
+  }
+ },
+ {
+  "name": "b183",
+  "template": "{% filter upper %}hello {{ 'x' }}{% endfilter %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "HELLO X"
+  }
+ },
+ {
+  "name": "b184",
+  "template": "{% filter replace('a', 'b') %}aaa{% endfilter %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "bbb"
+  }
+ },
+ {
+  "name": "b185",
+  "template": "{% if 0 %}a{% elif 1 %}b{% else %}c{% endif %}{% if none %}x{% elif false %}y{% endif %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "b"
+  }
+ },
+ {
+  "name": "b186",
+  "template": "{% set c = cycler('a','b') %}{{ c.next() }}{{ c.next() }}{{ c.next() }}{{ c.current }}{% set j = joiner('|') %}{{ j() }}a{{ j() }}b",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "ababa|b"
+  }
+ },
+ {
+  "name": "b187",
+  "template": "{{ dict(a=1, b=2) }} {{ dict([('x', 1)]) }} {{ dict.fromkeys(['a','b'], 0) }} {{ dict({'a':1}, c=3) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "{'a': 1, 'b': 2} {'x': 1} {'a': 0, 'b': 0} {'a': 1, 'c': 3}"
+  }
+ },
+ {
+  "name": "b188",
+  "template": "{{ namespace(_x=1) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "SecurityError",
+   "message": "Chat templates cannot store underscore-prefixed attributes on a namespace, but got '_x'. Please rename the attribute.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b189",
+  "template": "{% set ns = namespace() %}{% set ns._y = 1 %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "SecurityError",
+   "message": "Chat templates cannot store underscore-prefixed attributes on a namespace, but got '_y'. Please rename the attribute.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b190",
+  "template": "{% set ns = 1 %}{% set ns.a = 2 %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateRuntimeError",
+   "message": "cannot assign attribute on non-namespace object",
+   "line": 1
+  }
+ },
+ {
+  "name": "b191",
+  "template": "{% set ns = namespace(a=1) %}{{ ns.b }}|{{ ns['a'] }}|{{ ns.a }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "|1|1"
+  }
+ },
+ {
+  "name": "b192",
+  "template": "{{ range(100001)|length }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "OverflowError",
+   "message": "Range too big. The sandbox blocks ranges larger than MAX_RANGE (100000).",
+   "line": 1
+  }
+ },
+ {
+  "name": "b193",
+  "template": "{{ range(3, 0, -1)|list }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "[3, 2, 1]"
+  }
+ },
+ {
+  "name": "b194",
+  "template": "{{ range(0) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "range(0, 0)"
+  }
+ },
+ {
+  "name": "b195",
+  "template": "{{ range(1, 5) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "range(1, 5)"
+  }
+ },
+ {
+  "name": "b196",
+  "template": "{{ range(1, 5, 2) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "range(1, 5, 2)"
+  }
+ },
+ {
+  "name": "b197",
+  "template": "{% print 1, 2 %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "12"
+  }
+ },
+ {
+  "name": "b198",
+  "template": "{% do 1 %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'do'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b199",
+  "template": "{% foo %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'foo'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b200",
+  "template": "{% if true %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Unexpected end of template. Jinja was looking for the following tags: 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b201",
+  "template": "{% for %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b202",
+  "template": "{% endif %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'endif'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b203",
+  "template": "{{ 1 +  }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b204",
+  "template": "{{ (1 }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '}', expected ')'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b205",
+  "template": "{{ 1 ) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected ')'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b206",
+  "template": "{{ [1, 2 }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '}', expected ']'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b207",
+  "template": "{{ 'abc }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char \"'\" at 3",
+   "line": 1
+  }
+ },
+ {
+  "name": "b208",
+  "template": "{# no end",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Missing end of comment tag",
+   "line": 1
+  }
+ },
+ {
+  "name": "b209",
+  "template": "{% raw %}abc",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Missing end of raw directive",
+   "line": 1
+  }
+ },
+ {
+  "name": "b210",
+  "template": "{{ }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b211",
+  "template": "{{ a.1 }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'a' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b212",
+  "template": "{{ a.'x' }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected name or number",
+   "line": 1
+  }
+ },
+ {
+  "name": "b213",
+  "template": "{% set 1 = 2 %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "can't assign to 'const'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b214",
+  "template": "{% macro m(a=1, b) %}{% endmacro %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "non-default argument follows default argument",
+   "line": 1
+  }
+ },
+ {
+  "name": "b215",
+  "template": "{{ 1 is }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b216",
+  "template": "{{ x is defined is defined }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "You cannot chain multiple tests with is",
+   "line": 1
+  }
+ },
+ {
+  "name": "b217",
+  "template": "{{ f(a=1, 2) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "invalid syntax for function call expression",
+   "line": 1
+  }
+ },
+ {
+  "name": "b218",
+  "template": "{{ f(*a, *b) }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "invalid syntax for function call expression",
+   "line": 1
+  }
+ },
+ {
+  "name": "b219",
+  "template": "{% if true %}{% endfor %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'endfor'. Jinja was looking for the following tags: 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b220",
+  "template": "{% for i in x %}{% endif %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'endif'. Jinja was looking for the following tags: 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b221",
+  "template": "line\n{% if x %}\n{% else %}\n{% elif y %}{% endif %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'elif'. Jinja was looking for the following tags: 'endif'. The innermost block that needs to be closed is 'if'.",
+   "line": 4
+  }
+ },
+ {
+  "name": "b222",
+  "template": "{{ 1 | }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b223",
+  "template": "{{ x|nosuchfilter }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateAssertionError",
+   "message": "No filter named 'nosuchfilter'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b224",
+  "template": "{% if 0 %}{{ x|nosuchfilter }}{% endif %}ok",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "ok"
+  }
+ },
+ {
+  "name": "b225",
+  "template": "{% if true %}{{ x|nosuchfilter }}{% endif %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateRuntimeError",
+   "message": "No filter named 'nosuchfilter' found.",
+   "line": 1
+  }
+ },
+ {
+  "name": "b226",
+  "template": "{% break %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "SyntaxError",
+   "message": "'break' outside loop (<template>, line 11)",
+   "line": null
+  }
+ },
+ {
+  "name": "b227",
+  "template": "{% block b %}B{% endblock %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "B"
+  }
+ },
+ {
+  "name": "b228",
+  "template": "{% extends 'x' %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "no loader for this environment specified",
+   "line": 1
+  }
+ },
+ {
+  "name": "b229",
+  "template": "{% include 'x' %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "no loader for this environment specified",
+   "line": 1
+  }
+ },
+ {
+  "name": "b230",
+  "template": "{% import 'x' as y %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "no loader for this environment specified",
+   "line": 1
+  }
+ },
+ {
+  "name": "b231",
+  "template": "{% autoescape true %}{{ '<a>' }}{% endautoescape %}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "&lt;a&gt;"
+  }
+ },
+ {
+  "name": "b232",
+  "template": "{{ caller }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b233",
+  "template": "{{ self }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "<TemplateReference None>"
+  }
+ },
+ {
+  "name": "b234",
+  "template": "{{ x.__class__ }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "b235",
+  "template": "{{ ''.format }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "<function str.format at 0x0>"
+  }
+ },
+ {
+  "name": "b236",
+  "template": "{{ x is }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b237",
+  "template": "{% generation %}gen {{ 1 }}{% endgeneration %}after",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "gen 1after"
+  }
+ },
+ {
+  "name": "b238",
+  "template": "{%- generation -%}  g  {%- endgeneration -%}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "g"
+  }
+ },
+ {
+  "name": "b239",
+  "template": "{{ strftime_now('%Y') | length }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "4"
+  }
+ },
+ {
+  "name": "b240",
+  "template": "{{ 'x' is string and 1 }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "b241",
+  "template": "{{ -1|abs }} {{ - 1 }} {{ +1 }} {{ not not 1 }} {{ -x }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "b242",
+  "template": "{{ [1,2,3][1:] | join(',') }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "2,3"
+  }
+ },
+ {
+  "name": "b243",
+  "template": "{{ {'a': 1}['a'] }} {{ {'a': {'b': 2}}.a.b }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "1 2"
+  }
+ },
+ {
+  "name": "b244",
+  "template": "{{ [[1,2],[3]]|map('length')|list }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "[2, 1]"
+  }
+ },
+ {
+  "name": "b245",
+  "template": "{{ x.y if x is defined else 'no' }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "no"
+  }
+ },
+ {
+  "name": "b246",
+  "template": "{{ 'a' if x else 'b' }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "b"
+  }
+ },
+ {
+  "name": "b247",
+  "template": "{{ 'abc'[0] == 'a' }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "b248",
+  "template": "{{ 1 == true }} {{ 0 == false }} {{ 1.0 == true }} {{ {1: 'a'}[true] }} {{ {true: 'a', 1: 'b'} }} {{ [1, 1.0, true]|unique|list }}",
+  "ctx": {
+   "tree": [
+    {
+     "name": "a",
+     "children": [
+      {
+       "name": "b",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "c"
+    }
+   ]
+  },
+  "expected": {
+   "out": "True True True a {True: 'b'} [1]"
+  }
+ },
+ {
+  "name": "b249",
+  "template": "{{ v|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\"b\": 1, \"a\": \"é <&>'\\\"\\\\\\n\", \"c\": [1.5, true, null, {\"d\": []}], \"e\": 1e+100}"
+  }
+ },
+ {
+  "name": "b250",
+  "template": "{{ v|tojson(indent=2) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\n  \"b\": 1,\n  \"a\": \"é <&>'\\\"\\\\\\n\",\n  \"c\": [\n    1.5,\n    true,\n    null,\n    {\n      \"d\": []\n    }\n  ],\n  \"e\": 1e+100\n}"
+  }
+ },
+ {
+  "name": "b251",
+  "template": "{{ v|tojson(indent='\\t') }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\n\t\"b\": 1,\n\t\"a\": \"é <&>'\\\"\\\\\\n\",\n\t\"c\": [\n\t\t1.5,\n\t\ttrue,\n\t\tnull,\n\t\t{\n\t\t\t\"d\": []\n\t\t}\n\t],\n\t\"e\": 1e+100\n}"
+  }
+ },
+ {
+  "name": "b252",
+  "template": "{{ v|tojson(separators=(',', ':')) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\"b\":1,\"a\":\"é <&>'\\\"\\\\\\n\",\"c\":[1.5,true,null,{\"d\":[]}],\"e\":1e+100}"
+  }
+ },
+ {
+  "name": "b253",
+  "template": "{{ v|tojson(sort_keys=true) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\"a\": \"é <&>'\\\"\\\\\\n\", \"b\": 1, \"c\": [1.5, true, null, {\"d\": []}], \"e\": 1e+100}"
+  }
+ },
+ {
+  "name": "b254",
+  "template": "{{ v|tojson(ensure_ascii=true) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\"b\": 1, \"a\": \"\\u00e9\\u2028<&>'\\\"\\\\\\n\", \"c\": [1.5, true, null, {\"d\": []}], \"e\": 1e+100}"
+  }
+ },
+ {
+  "name": "b255",
+  "template": "{{ (1,2)|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "[1, 2]"
+  }
+ },
+ {
+  "name": "b256",
+  "template": "{{ {1: 'a', true: 'b', none: 'c', 1.5: 'd'}|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\"1\": \"b\", \"null\": \"c\", \"1.5\": \"d\"}"
+  }
+ },
+ {
+  "name": "b257",
+  "template": "{{ (1.0/3)|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "0.3333333333333333"
+  }
+ },
+ {
+  "name": "b258",
+  "template": "{{ 'inf'|float|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "Infinity"
+  }
+ },
+ {
+  "name": "b259",
+  "template": "{{ 'nan'|float|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "NaN"
+  }
+ },
+ {
+  "name": "b260",
+  "template": "{{ namespace(a=1)|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "Object of type TemplateNamespace is not JSON serializable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b261",
+  "template": "{{ x|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "Object of type Undefined is not JSON serializable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b262",
+  "template": "{{ range(3)|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "Object of type range is not JSON serializable",
+   "line": 1
+  }
+ },
+ {
+  "name": "b263",
+  "template": "{{ ('<a>'|safe)|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "\"<a>\""
+  }
+ },
+ {
+  "name": "b264",
+  "template": "{{ [] |tojson(indent=2) }}{{ {}|tojson(indent=2) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "[]{}"
+  }
+ },
+ {
+  "name": "b265",
+  "template": "{{ v|tojson(indent=0) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\n\"b\": 1,\n\"a\": \"é <&>'\\\"\\\\\\n\",\n\"c\": [\n1.5,\ntrue,\nnull,\n{\n\"d\": []\n}\n],\n\"e\": 1e+100\n}"
+  }
+ },
+ {
+  "name": "b266",
+  "template": "{{ 10**20|tojson }} {{ 1e16|tojson }} {{ -0.0|tojson }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported operand type(s) for ** or pow(): 'int' and 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "b267",
+  "template": "{{ {'a': [1, {'b': none}]}|tojson(indent=2) }}",
+  "ctx": {
+   "v": {
+    "b": 1,
+    "a": "é <&>'\"\\\n",
+    "c": [
+     1.5,
+     true,
+     null,
+     {
+      "d": []
+     }
+    ],
+    "e": 1e+100
+   }
+  },
+  "expected": {
+   "out": "{\n  \"a\": [\n    1,\n    {\n      \"b\": null\n    }\n  ]\n}"
+  }
+ }
+]

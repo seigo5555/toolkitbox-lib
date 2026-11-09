@@ -1,0 +1,582 @@
+{
+ "note": "Generated 2026-11-09 with Ollama 0.40.11 on macOS: each Modelfile (FROM qwen2.5:7b) was given to `ollama create`; 'error' is the Error: line it printed, 'warnings' the warning lines, and 'layers' the text layers (params, system, template, messages, license) of the created model's manifest. The created models were removed afterwards. qwen2.5:7b's own template, system and license are inherited when the Modelfile does not set them. Inherited layers that are identical to qwen2.5:7b's are replaced with <inherited qwen2.5:7b license> / <inherited qwen2.5:7b template>.",
+ "qwenSystem": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant.",
+ "cases": {
+  "err-adapter": {
+   "modelfile": "FROM qwen2.5:7b\nADAPTER ./lora.gguf\n",
+   "real": {
+    "code": 1,
+    "error": "LoRA adapters are no longer supported",
+    "warnings": []
+   }
+  },
+  "err-bool": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER use_mmap yes\n",
+   "real": {
+    "code": 1,
+    "error": "invalid bool value [yes]",
+    "warnings": []
+   }
+  },
+  "err-capability": {
+   "modelfile": "FROM qwen2.5:7b\nCAPABILITY chat\n",
+   "real": {
+    "code": 1,
+    "error": "unknown capability: \"chat\"",
+    "warnings": []
+   }
+  },
+  "err-command": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMS temperature 0.5\n",
+   "real": {
+    "code": 1,
+    "error": "(line 2): command must be one of \"from\", \"license\", \"template\", \"system\", \"adapter\", \"draft\", \"renderer\", \"parser\", \"parameter\", \"message\", \"requires\", or \"capability\"",
+    "warnings": []
+   }
+  },
+  "err-command2": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM ok\nFOO bar\n",
+   "real": {
+    "code": 1,
+    "error": "(line 3): command must be one of \"from\", \"license\", \"template\", \"system\", \"adapter\", \"draft\", \"renderer\", \"parser\", \"parameter\", \"message\", \"requires\", or \"capability\"",
+    "warnings": []
+   }
+  },
+  "err-crlf-line": {
+   "modelfile": "FROM qwen2.5:7b\r\nSYSTEM ok\r\nBAD x\r\n",
+   "real": {
+    "code": 1,
+    "error": "(line 5): command must be one of \"from\", \"license\", \"template\", \"system\", \"adapter\", \"draft\", \"renderer\", \"parser\", \"parameter\", \"message\", \"requires\", or \"capability\"",
+    "warnings": []
+   }
+  },
+  "err-float": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER temperature high\n",
+   "real": {
+    "code": 1,
+    "error": "invalid float value [high]",
+    "warnings": []
+   }
+  },
+  "err-from-only-name": {
+   "modelfile": "FROM\n",
+   "real": {
+    "code": 1,
+    "error": "(line 2): command must be one of \"from\", \"license\", \"template\", \"system\", \"adapter\", \"draft\", \"renderer\", \"parser\", \"parameter\", \"message\", \"requires\", or \"capability\"",
+    "warnings": []
+   }
+  },
+  "err-inf": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER temperature inf\n",
+   "real": {
+    "code": 1,
+    "error": "json: unsupported value: +Inf",
+    "warnings": []
+   }
+  },
+  "err-int": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER num_ctx 4k\n",
+   "real": {
+    "code": 1,
+    "error": "invalid int value [4k]",
+    "warnings": []
+   }
+  },
+  "err-int-float": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER num_ctx 4096.0\n",
+   "real": {
+    "code": 1,
+    "error": "invalid int value [4096.0]",
+    "warnings": []
+   }
+  },
+  "err-message-noval": {
+   "modelfile": "FROM qwen2.5:7b\nMESSAGE user\n",
+   "real": {
+    "code": 1,
+    "error": "unexpected EOF: user",
+    "warnings": []
+   }
+  },
+  "err-name-digit": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM2 hi\n",
+   "real": {
+    "code": 1,
+    "error": "(line 2): command must be one of \"from\", \"license\", \"template\", \"system\", \"adapter\", \"draft\", \"renderer\", \"parser\", \"parameter\", \"message\", \"requires\", or \"capability\"",
+    "warnings": []
+   }
+  },
+  "err-nofrom": {
+   "modelfile": "SYSTEM hi\n",
+   "real": {
+    "code": 1,
+    "error": "no FROM line",
+    "warnings": []
+   }
+  },
+  "err-param-case": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER Temperature 0.5\n",
+   "real": {
+    "code": 1,
+    "error": "unknown parameter 'Temperature'",
+    "warnings": []
+   }
+  },
+  "err-param-name": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER temp-erature 0.5\n",
+   "real": {
+    "code": 1,
+    "error": "unexpected EOF: temp",
+    "warnings": []
+   }
+  },
+  "err-param-unknown": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER temp 0.5\n",
+   "real": {
+    "code": 1,
+    "error": "unknown parameter 'temp'",
+    "warnings": []
+   }
+  },
+  "err-requires": {
+   "modelfile": "FROM qwen2.5:7b\nREQUIRES latest\n",
+   "real": {
+    "code": 1,
+    "error": "requires must be a valid semver (e.g. 0.14.0)",
+    "warnings": []
+   }
+  },
+  "err-role": {
+   "modelfile": "FROM qwen2.5:7b\nMESSAGE User hello\n",
+   "real": {
+    "code": 1,
+    "error": "(line 2): message role must be one of \"system\", \"user\", or \"assistant\"",
+    "warnings": []
+   }
+  },
+  "err-role2": {
+   "modelfile": "FROM qwen2.5:7b\nMESSAGE tool result\n",
+   "real": {
+    "code": 1,
+    "error": "(line 2): message role must be one of \"system\", \"user\", or \"assistant\"",
+    "warnings": []
+   }
+  },
+  "err-template": {
+   "modelfile": "FROM qwen2.5:7b\nTEMPLATE \"\"\"{{ if .System }}oops\"\"\"\n",
+   "real": {
+    "code": 1,
+    "error": "400 Bad Request: template error: template: :1: unexpected EOF",
+    "warnings": []
+   }
+  },
+  "err-template2": {
+   "modelfile": "FROM qwen2.5:7b\nTEMPLATE {{ .Nope | foo }}\n",
+   "real": {
+    "code": 1,
+    "error": "400 Bad Request: template error: template: :1: function \"foo\" not defined",
+    "warnings": []
+   }
+  },
+  "err-typical": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER typical_p 0.9\n",
+   "real": {
+    "code": 1,
+    "error": "typical_p is deprecated and cannot be set as a model parameter; pass it as a request option instead",
+    "warnings": []
+   }
+  },
+  "err-unclosed": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM \"\"\"\nnever closed\n",
+   "real": {
+    "code": 1,
+    "error": "unexpected EOF",
+    "warnings": []
+   }
+  },
+  "err-unclosed2": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM \"hello\" world\nPARAMETER temperature 0.5\n",
+   "real": {
+    "code": 1,
+    "error": "unexpected EOF",
+    "warnings": []
+   }
+  },
+  "ok-basic": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER temperature 0.7\nPARAMETER num_ctx 8192\nSYSTEM You are terse.\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "You are terse."
+     ],
+     "params": [
+      "{\"num_ctx\":8192,\"temperature\":0.7}\n"
+     ]
+    }
+   }
+  },
+  "ok-bom": {
+   "modelfile": "﻿FROM qwen2.5:7b\nSYSTEM bom\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "bom"
+     ]
+    }
+   }
+  },
+  "ok-capability": {
+   "modelfile": "FROM qwen2.5:7b\nCAPABILITY tools\nCAPABILITY thinking\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ]
+    }
+   }
+  },
+  "ok-comments": {
+   "modelfile": "# comment\n\n  FROM qwen2.5:7b  \n# PARAMETER bad\nPARAMETER temperature 0.5 \n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "params": [
+      "{\"temperature\":0.5}\n"
+     ]
+    }
+   }
+  },
+  "ok-crlf": {
+   "modelfile": "FROM qwen2.5:7b\r\nPARAMETER temperature 0.6\r\nSYSTEM crlf\r\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "crlf"
+     ],
+     "params": [
+      "{\"temperature\":0.6}\n"
+     ]
+    }
+   }
+  },
+  "ok-deprecated": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER mirostat 2\nPARAMETER temperature 0.3\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [
+     "warning: parameter mirostat is deprecated"
+    ],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "params": [
+      "{\"temperature\":0.3}\n"
+     ]
+    }
+   }
+  },
+  "ok-dup": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM one\nSYSTEM two\nPARAMETER temperature 0.1\nPARAMETER temperature 0.9\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "two"
+     ],
+     "params": [
+      "{\"temperature\":0.9}\n"
+     ]
+    }
+   }
+  },
+  "ok-floats": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER temperature 0.1\nPARAMETER top_p 1e-3\nPARAMETER min_p .05\nPARAMETER repeat_penalty 1.10000002\nPARAMETER presence_penalty -0.5\nPARAMETER frequency_penalty 0x1p-2\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "params": [
+      "{\"frequency_penalty\":0.25,\"min_p\":0.05,\"presence_penalty\":-0.5,\"repeat_penalty\":1.1,\"temperature\":0.1,\"top_p\":0.001}\n"
+     ]
+    }
+   }
+  },
+  "ok-ints": {
+   "modelfile": "FROM qwen2.5:7b\nPARAMETER seed -42\nPARAMETER num_predict +128\nPARAMETER top_k 0\nPARAMETER num_gpu 99\nPARAMETER main_gpu 1\nPARAMETER use_mmap false\nPARAMETER num_thread 4\nPARAMETER num_batch 256\nPARAMETER num_keep 5\nPARAMETER repeat_last_n -1\nPARAMETER draft_num_predict 4\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "params": [
+      "{\"draft_num_predict\":4,\"main_gpu\":1,\"num_batch\":256,\"num_gpu\":99,\"num_keep\":5,\"num_predict\":128,\"num_thread\":4,\"repeat_last_n\":-1,\"seed\":-42,\"top_k\":0,\"use_mmap\":false}\n"
+     ]
+    }
+   }
+  },
+  "ok-license": {
+   "modelfile": "FROM qwen2.5:7b\nLICENSE MIT\nLICENSE \"\"\"\nApache 2.0\n\"\"\"\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>",
+      "MIT",
+      "\nApache 2.0\n"
+     ]
+    }
+   }
+  },
+  "ok-lower": {
+   "modelfile": "from qwen2.5:7b\nparameter top_p 0.95\nsystem hi there\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "hi there"
+     ],
+     "params": [
+      "{\"top_p\":0.95}\n"
+     ]
+    }
+   }
+  },
+  "ok-messages": {
+   "modelfile": "FROM qwen2.5:7b\nMESSAGE user Is Toronto in Canada?\nMESSAGE assistant yes\nMESSAGE system Be brief.\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "messages": [
+      "[{\"role\":\"user\",\"content\":\"Is Toronto in Canada?\"},{\"role\":\"assistant\",\"content\":\"yes\"},{\"role\":\"system\",\"content\":\"Be brief.\"}]\n"
+     ]
+    }
+   }
+  },
+  "ok-quoted": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM \"\"\"\nLine one\nLine \"two\"\n\"\"\"\nPARAMETER stop \"<|im_end|>\"\nPARAMETER stop </s>\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "\nLine one\nLine \"two\"\n"
+     ],
+     "params": [
+      "{\"stop\":[\"\\u003c|im_end|\\u003e\",\"\\u003c/s\\u003e\"]}\n"
+     ]
+    }
+   }
+  },
+  "ok-requires": {
+   "modelfile": "FROM qwen2.5:7b\nREQUIRES 0.14.0\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ]
+    }
+   }
+  },
+  "ok-requires-v": {
+   "modelfile": "FROM qwen2.5:7b\nREQUIRES v0.40\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ]
+    }
+   }
+  },
+  "ok-tabs": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM\ttab separated\tvalue\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "tab separated\tvalue"
+     ]
+    }
+   }
+  },
+  "ok-template": {
+   "modelfile": "FROM qwen2.5:7b\nTEMPLATE \"\"\"{{ range .Messages }}<|im_start|>{{ .Role }}\n{{ .Content }}<|im_end|>\n{{ end }}<|im_start|>assistant\n\"\"\"\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "system": [
+      "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "template": [
+      "{{ range .Messages }}<|im_start|>{{ .Role }}\n{{ .Content }}<|im_end|>\n{{ end }}<|im_start|>assistant\n"
+     ]
+    }
+   }
+  },
+  "ok-unicode": {
+   "modelfile": "FROM qwen2.5:7b\nSYSTEM 日本語で答えてください 🎉\n",
+   "real": {
+    "code": 0,
+    "error": null,
+    "warnings": [],
+    "layers": {
+     "template": [
+      "<inherited qwen2.5:7b template>"
+     ],
+     "license": [
+      "<inherited qwen2.5:7b license>"
+     ],
+     "system": [
+      "日本語で答えてください 🎉"
+     ]
+    }
+   }
+  }
+ }
+}

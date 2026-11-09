@@ -24,7 +24,7 @@ function eq(name: string, actual: unknown, expected: unknown) {
   }
 }
 
-const base: ModelfileInput = { from: "qwen2.5:7b", system: "", params: {}, stops: "", messages: [], template: "", requires: "", license: "" };
+const base: ModelfileInput = { from: "qwen2.5:7b", system: "", params: {}, stops: "", messages: [], template: "", requires: "", capabilities: [], license: "" };
 const build = (o: Partial<ModelfileInput>) => buildModelfile({ ...base, ...o });
 const codes = (o: Partial<ModelfileInput>) => build(o).problems.map((p) => `${p.code}:${p.field}`);
 
@@ -91,8 +91,16 @@ eq(
   'FROM qwen2.5:7b\n\nTEMPLATE """{{ .System }}\n{{ .Prompt }}"""\n',
 );
 eq("requires", build({ requires: "0.14.0" }).text, "FROM qwen2.5:7b\n\nREQUIRES 0.14.0\n");
-eq("requires format", codes({ requires: "v0.14" }), ["requiresFormat:requires"]);
-eq("requires is warn", build({ requires: "0.14" }).problems[0]?.severity, "warn");
+// REQUIRES は ollama create と同じ確かめ方(2026-11-09、Ollama 0.40.11 で確認):
+// 0.14.0・v0.14・0.14.0-rc.1・99.0.0 は通り、0.14.x・01.2.3 は「requires must be a valid semver (e.g. 0.14.0)」で止まる
+eq("requires accepted forms", ["0.14.0", "v0.14", "0.14", "0.14.0-rc.1", "99.0.0", "1"].map((r) => codes({ requires: r })), [[], [], [], [], [], []]);
+eq("requires rejected forms", ["0.14.x", "01.2.3", "latest", "0.14.0.1", "0.14 .0"].map((r) => codes({ requires: r })), [0, 0, 0, 0, 0].map(() => ["requiresFormat:requires"]));
+eq("requires rejected is error", build({ requires: "0.14.x" }).problems[0]?.severity, "error");
+
+// CAPABILITY は1行に1つ、ollama create が受け付ける並び(cmd.go)で出す。知らない値は出さない
+eq("capability lines", build({ capabilities: ["vision", "decision"] }).text, "FROM qwen2.5:7b\n\nCAPABILITY vision\nCAPABILITY decision\n");
+eq("capability unknown dropped", build({ capabilities: ["teleport"] }).text, "FROM qwen2.5:7b\n");
+eq("requires then capability", build({ requires: "0.14.0", capabilities: ["tools"] }).text, "FROM qwen2.5:7b\n\nREQUIRES 0.14.0\n\nCAPABILITY tools\n");
 eq("license", build({ license: "MIT License\n\nCopyright (c) test" }).text, 'FROM qwen2.5:7b\n\nLICENSE """MIT License\n\nCopyright (c) test"""\n');
 
 // 全部入りの並び

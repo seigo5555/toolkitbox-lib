@@ -1,0 +1,155 @@
+{
+ "note": "Expected outputs were produced on 2026-11-09 with Python 3.14.7, transformers 5.22.2 and Jinja2 3.1.6 (the environment transformers uses: _compile_jinja_template / render_jinja_template / get_chat_template / jinja2.meta.find_undeclared_variables). The generators are in gen/. chat.json and options.json contain only chat templates from Apache-2.0 or MIT licensed model repositories on huggingface.co, listed below with the commit they were fetched at. Templates under other licenses (Llama, Gemma, CC-BY-NC, custom) were also checked once but are not stored here.",
+ "templates": {
+  "01-ai_Yi-1.5-9B-Chat__default": {
+   "repo": "01-ai/Yi-1.5-9B-Chat",
+   "commit": "1a0fc698cf883c4f5c325f026ca79f0ebd9955a5",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "HuggingFaceH4_zephyr-7b-beta__default": {
+   "repo": "HuggingFaceH4/zephyr-7b-beta",
+   "commit": "892b3d7a7b1cf10c7a701c60881cd93df615734c",
+   "license": "mit",
+   "file": "tokenizer_config.json"
+  },
+  "HuggingFaceTB_SmolLM2-1.7B-Instruct__default": {
+   "repo": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+   "commit": "31b70e2e869a7173562077fd711b654946d38674",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "HuggingFaceTB_SmolLM3-3B__default": {
+   "repo": "HuggingFaceTB/SmolLM3-3B",
+   "commit": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+   "license": "apache-2.0",
+   "file": "chat_template.jinja"
+  },
+  "Qwen_QwQ-32B__default": {
+   "repo": "Qwen/QwQ-32B",
+   "commit": "976055f8c83f394f35dbd3ab09a285a984907bd0",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "Qwen_Qwen2.5-7B-Instruct__default": {
+   "repo": "Qwen/Qwen2.5-7B-Instruct",
+   "commit": "a09a35458c702b33eeacc393d103063234e8bc28",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "Qwen_Qwen2.5-VL-7B-Instruct__default": {
+   "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+   "commit": "cc594898137f460bfe9f0759e9844b3ce807cfb5",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "Qwen_Qwen2.5-VL-7B-Instruct__processor": {
+   "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+   "commit": "cc594898137f460bfe9f0759e9844b3ce807cfb5",
+   "license": "apache-2.0",
+   "file": "chat_template.json"
+  },
+  "Qwen_Qwen3-8B__default": {
+   "repo": "Qwen/Qwen3-8B",
+   "commit": "b968826d9c46dd6066d109eabc6255188de91218",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "Qwen_Qwen3-Coder-30B-A3B-Instruct__default": {
+   "repo": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+   "commit": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+   "license": "apache-2.0",
+   "file": "chat_template.jinja"
+  },
+  "allenai_OLMo-2-1124-7B-Instruct__default": {
+   "repo": "allenai/OLMo-2-1124-7B-Instruct",
+   "commit": "470b1fba1ae01581f270116362ee4aa1b97f4c84",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "baidu_ERNIE-4.5-0.3B-PT__default": {
+   "repo": "baidu/ERNIE-4.5-0.3B-PT",
+   "commit": "b565cf6caebdb7a1eadf00100857b1ed5e044f12",
+   "license": "apache-2.0",
+   "file": "chat_template.jinja"
+  },
+  "deepseek-ai_DeepSeek-R1-Distill-Qwen-7B__default": {
+   "repo": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+   "commit": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+   "license": "mit",
+   "file": "tokenizer_config.json"
+  },
+  "deepseek-ai_DeepSeek-R1__default": {
+   "repo": "deepseek-ai/DeepSeek-R1",
+   "commit": "56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad",
+   "license": "mit",
+   "file": "tokenizer_config.json"
+  },
+  "ibm-granite_granite-3.3-8b-instruct__default": {
+   "repo": "ibm-granite/granite-3.3-8b-instruct",
+   "commit": "51dd4bc2ade4059a6bd87649d68aa11e4fb2529b",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "internlm_internlm3-8b-instruct__default": {
+   "repo": "internlm/internlm3-8b-instruct",
+   "commit": "28c99415adaf61767bd1c619f4f99f308fdfd223",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "microsoft_Phi-3.5-mini-instruct__default": {
+   "repo": "microsoft/Phi-3.5-mini-instruct",
+   "commit": "2fe192450127e6a83f7441aef6e3ca586c338b77",
+   "license": "mit",
+   "file": "tokenizer_config.json"
+  },
+  "microsoft_Phi-4-mini-instruct__default": {
+   "repo": "microsoft/Phi-4-mini-instruct",
+   "commit": "cfbefacb99257ffa30c83adab238a50856ac3083",
+   "license": "mit",
+   "file": "tokenizer_config.json"
+  },
+  "microsoft_phi-4__default": {
+   "repo": "microsoft/phi-4",
+   "commit": "2db69c1c3e91a05d2c64a3185acfbaf36f744e25",
+   "license": "mit",
+   "file": "tokenizer_config.json"
+  },
+  "mistralai_Mistral-7B-Instruct-v0.3__default": {
+   "repo": "mistralai/Mistral-7B-Instruct-v0.3",
+   "commit": "c170c708c41dac9275d15a8fff4eca08d52bab71",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "mistralai_Mistral-Nemo-Instruct-2407__default": {
+   "repo": "mistralai/Mistral-Nemo-Instruct-2407",
+   "commit": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "mistralai_Mistral-Small-3.1-24B-Instruct-2503__processor": {
+   "repo": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+   "commit": "68faf511d618ef198fef186659617cfd2eb8e33a",
+   "license": "apache-2.0",
+   "file": "chat_template.json"
+  },
+  "openai_gpt-oss-20b__default": {
+   "repo": "openai/gpt-oss-20b",
+   "commit": "6cee5e81ee83917806bbde320786a8fb61efebee",
+   "license": "apache-2.0",
+   "file": "chat_template.jinja"
+  },
+  "teknium_OpenHermes-2.5-Mistral-7B__default": {
+   "repo": "teknium/OpenHermes-2.5-Mistral-7B",
+   "commit": "24c0bea14d53e6f67f1fbe2eca5bfe7cae389b33",
+   "license": "apache-2.0",
+   "file": "tokenizer_config.json"
+  },
+  "zai-org_GLM-4.5__default": {
+   "repo": "zai-org/GLM-4.5",
+   "commit": "cbb2c7cfb52fa128a9660cb1a7a78e017899e115",
+   "license": "mit",
+   "file": "chat_template.jinja"
+  }
+ }
+}

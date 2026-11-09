@@ -9,7 +9,12 @@
  * そのため、文章の中に `"""` があると、そこで値が切れてしまう。エスケープの仕組みは無い。
  */
 
-export const MODELFILE_VERIFIED_ON = "2026-10-30";
+import { CAPABILITIES, semverValid } from "./modelfile-rules";
+
+export const MODELFILE_VERIFIED_ON = "2026-11-09";
+
+/** CAPABILITY に書ける値(ollama create が受け付けるもの。Ollama v0.40.15 の cmd.go。並びもそれに合わせた)。 */
+export { CAPABILITIES };
 export const MODELFILE_DOC_URL = "https://docs.ollama.com/modelfile";
 
 export type ParamType = "int" | "float";
@@ -42,6 +47,8 @@ export type ModelfileInput = {
   messages: { role: Role; text: string }[];
   template: string;
   requires: string;
+  /** CAPABILITY に書く値(CAPABILITIES の中から)。1つにつき1行。 */
+  capabilities: string[];
   license: string;
 };
 
@@ -52,8 +59,6 @@ export type Problem = { code: ProblemCode; field: string; severity: "error" | "w
 
 const INT = /^-?\d+$/;
 const FLOAT = /^-?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/;
-/** 「0.14.0 のような正しい Ollama のバージョン」。プレリリースは書かれていないので、3つの数だけ通す。 */
-const VERSION = /^\d+\.\d+\.\d+$/;
 
 const block = (s: string) => `"""${s}"""`;
 
@@ -112,9 +117,15 @@ export function buildModelfile(input: ModelfileInput): { text: string; problems:
 
   const req = input.requires.trim();
   if (req) {
-    if (!VERSION.test(req)) problems.push({ code: "requiresFormat", field: "requires", severity: "warn" });
+    // ollama create と同じ確かめ方(先頭に v が無ければ足して、golang.org/x/mod/semver で)。通らないと
+    // 「requires must be a valid semver (e.g. 0.14.0)」で止まる。
+    if (/\s/.test(req) || !semverValid(req.startsWith("v") ? req : "v" + req)) problems.push({ code: "requiresFormat", field: "requires", severity: "error" });
     lines.push("", `REQUIRES ${req}`);
   }
+
+  // CAPABILITY は1行に1つ。くり返して書けば複数足せる(Modelfile Reference)。
+  const caps = CAPABILITIES.filter((c) => input.capabilities.includes(c));
+  if (caps.length) lines.push("", ...caps.map((c) => `CAPABILITY ${c}`));
 
   const licStart = lines.length;
   blockField("license", "LICENSE", input.license);

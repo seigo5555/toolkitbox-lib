@@ -1,0 +1,2094 @@
+[
+ {
+  "name": "ex/chatml-tools/simple/true/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>user\nHello!<|im_end|>\n<|im_start|>assistant\nHi! How can I help?<|im_end|>\n<|im_start|>user\nTell me a joke.<|im_end|>\n<|im_start|>assistant\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/chatml-tools/simple/false/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>user\nHello!<|im_end|>\n<|im_start|>assistant\nHi! How can I help?<|im_end|>\n<|im_start|>user\nTell me a joke.<|im_end|>\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/chatml-tools/tools/true/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou can call these functions:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get the current weather in a city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}}, \"required\": [\"city\"]}}}\n</tools>\n\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\n<|im_start|>user\nWhat's the weather in Paris?<|im_end|>\n<|im_start|>assistant\n\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\"}}\n</tool_call><|im_end|>\n<|im_start|>user\n<tool_response>\n{\"temperature\": 22}\n</tool_response><|im_end|>\n<|im_start|>assistant\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/chatml-tools/tools/false/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou can call these functions:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get the current weather in a city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}}, \"required\": [\"city\"]}}}\n</tools>\n\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\n<|im_start|>user\nWhat's the weather in Paris?<|im_end|>\n<|im_start|>assistant\n\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\"}}\n</tool_call><|im_end|>\n<|im_start|>user\n<tool_response>\n{\"temperature\": 22}\n</tool_response><|im_end|>\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/chatml-tools/reasoning/true/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>user\nWhat is 17 * 3?<|im_end|>\n<|im_start|>assistant\n51<|im_end|>\n<|im_start|>user\nAnd 17 * 4?<|im_end|>\n<|im_start|>assistant\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/chatml-tools/reasoning/false/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>user\nWhat is 17 * 3?<|im_end|>\n<|im_start|>assistant\n51<|im_end|>\n<|im_start|>user\nAnd 17 * 4?<|im_end|>\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/chatml-tools/multimodal/true/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 19
+  }
+ },
+ {
+  "name": "ex/chatml-tools/multimodal/false/-",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 19
+  }
+ },
+ {
+  "name": "ex/chatml-tools/own",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|im_start|>system\nYou are a helpful assistant.\n\n# Tools\n\nYou can call these functions:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"description\": \"Get the current weather in a city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"City name\"}}, \"required\": [\"city\"]}}}\n</tools>\n\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\n<|im_start|>user\nWhat's the weather in Paris?<|im_end|>\n<|im_start|>assistant\n\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\"}}\n</tool_call><|im_end|>\n<|im_start|>user\n<tool_response>\n{\"temperature\": 22}\n</tool_response><|im_end|>\n<|im_start|>assistant\n",
+   "gen": []
+  }
+ },
+ {
+  "name": "vars/chatml-tools",
+  "mode": "vars",
+  "template": "{%- if tools %}\n  {{- '<|im_start|>system\\n' }}\n  {%- if messages[0].role == 'system' %}\n    {{- messages[0].content + '\\n\\n' }}\n  {%- endif %}\n  {{- '# Tools\\n\\nYou can call these functions:\\n<tools>' }}\n  {%- for tool in tools %}\n    {{- '\\n' + tool | tojson }}\n  {%- endfor %}\n  {{- '\\n</tools>\\n\\nTo call one, reply with JSON inside <tool_call></tool_call>.<|im_end|>\\n' }}\n{%- elif messages[0].role == 'system' %}\n  {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n  {%- if message.role == 'system' and loop.first %}\n  {%- elif message.role == 'tool' %}\n    {{- '<|im_start|>user\\n<tool_response>\\n' + message.content + '\\n</tool_response><|im_end|>\\n' }}\n  {%- else %}\n    {{- '<|im_start|>' + message.role + '\\n' + (message.content or '') }}\n    {%- for call in message.tool_calls or [] %}\n      {{- '\\n<tool_call>\\n' + {'name': call.function.name, 'arguments': call.function.arguments} | tojson + '\\n</tool_call>' }}\n    {%- endfor %}\n    {{- '<|im_end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+  "expected": {
+   "vars": [
+    "add_generation_prompt",
+    "messages",
+    "tools"
+   ]
+  }
+ },
+ {
+  "name": "ex/thinking/simple/true/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>Hello!<|end|><|assistant|>Hi! How can I help?<|end|><|user|>Tell me a joke.<|end|><|assistant|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/simple/true/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|user|>Hello!<|end|><|assistant|>Hi! How can I help?<|end|><|user|>Tell me a joke.<|end|><|assistant|><think></think>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/simple/true/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "out": "<|user|>Hello!<|end|><|assistant|>Hi! How can I help?<|end|><|user|>Tell me a joke.<|end|><|assistant|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/simple/false/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>Hello!<|end|><|assistant|>Hi! How can I help?<|end|><|user|>Tell me a joke.<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/simple/false/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|user|>Hello!<|end|><|assistant|>Hi! How can I help?<|end|><|user|>Tell me a joke.<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/simple/false/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "out": "<|user|>Hello!<|end|><|assistant|>Hi! How can I help?<|end|><|user|>Tell me a joke.<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/tools/true/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|system|>You are a helpful assistant.<|end|><|user|>What's the weather in Paris?<|end|><|assistant|><|end|><|tool|>{\"temperature\": 22}<|end|><|assistant|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/tools/true/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|system|>You are a helpful assistant.<|end|><|user|>What's the weather in Paris?<|end|><|assistant|><|end|><|tool|>{\"temperature\": 22}<|end|><|assistant|><think></think>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/tools/true/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "out": "<|system|>You are a helpful assistant.<|end|><|user|>What's the weather in Paris?<|end|><|assistant|><|end|><|tool|>{\"temperature\": 22}<|end|><|assistant|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/tools/false/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|system|>You are a helpful assistant.<|end|><|user|>What's the weather in Paris?<|end|><|assistant|><|end|><|tool|>{\"temperature\": 22}<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/tools/false/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|system|>You are a helpful assistant.<|end|><|user|>What's the weather in Paris?<|end|><|assistant|><|end|><|tool|>{\"temperature\": 22}<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/tools/false/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "out": "<|system|>You are a helpful assistant.<|end|><|user|>What's the weather in Paris?<|end|><|assistant|><|end|><|tool|>{\"temperature\": 22}<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/reasoning/true/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|><|assistant|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/reasoning/true/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|><|assistant|><think></think>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/reasoning/true/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|><|assistant|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/reasoning/false/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/reasoning/false/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/reasoning/false/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|>",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/thinking/multimodal/true/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 9
+  }
+ },
+ {
+  "name": "ex/thinking/multimodal/true/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 9
+  }
+ },
+ {
+  "name": "ex/thinking/multimodal/true/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 9
+  }
+ },
+ {
+  "name": "ex/thinking/multimodal/false/-",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 9
+  }
+ },
+ {
+  "name": "ex/thinking/multimodal/false/{\"enable_thinking\": false}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 9
+  }
+ },
+ {
+  "name": "ex/thinking/multimodal/false/{\"enable_thinking\": true}",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "enable_thinking": true
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"list\") to str",
+   "line": 9
+  }
+ },
+ {
+  "name": "ex/thinking/own",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "expected": {
+   "out": "<|user|>What is 17 * 3?<|end|><|assistant|>51<|end|><|user|>And 17 * 4?<|end|><|assistant|><think></think>",
+   "gen": []
+  }
+ },
+ {
+  "name": "vars/thinking",
+  "mode": "vars",
+  "template": "{%- for message in messages %}\n  {%- if message.role == 'assistant' %}\n    {{- '<|assistant|>' }}\n    {%- if message.reasoning_content and loop.last %}\n      {{- '<think>' + message.reasoning_content + '</think>' }}\n    {%- endif %}\n    {{- message.content + '<|end|>' }}\n  {%- else %}\n    {{- '<|' + message.role + '|>' + message.content + '<|end|>' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>' }}\n  {%- if enable_thinking is defined and not enable_thinking %}\n    {{- '<think></think>' }}\n  {%- endif %}\n{%- endif %}\n",
+  "expected": {
+   "vars": [
+    "add_generation_prompt",
+    "enable_thinking",
+    "messages"
+   ]
+  }
+ },
+ {
+  "name": "ex/strict-roles/simple/true/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] Hello! [/INST] Hi! How can I help?</s>[INST] Tell me a joke. [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/strict-roles/simple/false/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] Hello! [/INST] Hi! How can I help?</s>[INST] Tell me a joke. [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/strict-roles/tools/true/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "error": "TemplateError",
+   "message": "Conversation roles must alternate user/assistant/user/assistant/...",
+   "line": 4
+  }
+ },
+ {
+  "name": "ex/strict-roles/tools/false/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": false,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "error": "TemplateError",
+   "message": "Conversation roles must alternate user/assistant/user/assistant/...",
+   "line": 4
+  }
+ },
+ {
+  "name": "ex/strict-roles/reasoning/true/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] What is 17 * 3? [/INST] 51</s>[INST] And 17 * 4? [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/strict-roles/reasoning/false/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] What is 17 * 3? [/INST] 51</s>[INST] And 17 * 4? [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/strict-roles/multimodal/true/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] [{'type': 'image'}, {'type': 'text', 'text': 'What is in this picture?'}] [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/strict-roles/multimodal/false/-",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] [{'type': 'image'}, {'type': 'text', 'text': 'What is in this picture?'}] [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "ex/strict-roles/own",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {
+    "bos_token": "<s>",
+    "eos_token": "</s>"
+   }
+  },
+  "expected": {
+   "out": "<s>[INST] Hello! [/INST] Hi! How can I help?</s>[INST] Tell me a joke. [/INST]",
+   "gen": []
+  }
+ },
+ {
+  "name": "vars/strict-roles",
+  "mode": "vars",
+  "template": "{{- bos_token }}\n{%- for message in messages %}\n  {%- if (message.role == 'user') != (loop.index0 % 2 == 0) %}\n    {{- raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}\n  {%- endif %}\n  {%- if message.role == 'user' %}\n    {{- '[INST] ' + message.content | trim + ' [/INST]' }}\n  {%- elif message.role == 'assistant' %}\n    {{- ' ' + message.content | trim + eos_token }}\n  {%- endif %}\n{%- endfor %}\n",
+  "expected": {
+   "vars": [
+    "bos_token",
+    "eos_token",
+    "messages"
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/simple/true/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>\nHello!<|end|>\n<|assistant|>\nHi! How can I help?<|end|>\n<|user|>\nTell me a joke.<|end|>\n<|assistant|>\n",
+   "gen": [
+    [
+     37,
+     64
+    ]
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/simple/false/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>\nHello!<|end|>\n<|assistant|>\nHi! How can I help?<|end|>\n<|user|>\nTell me a joke.<|end|>\n",
+   "gen": [
+    [
+     37,
+     64
+    ]
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/tools/true/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|system|>\nYou are a helpful assistant.<|end|>\n<|user|>\nWhat's the weather in Paris?<|end|>\n<|assistant|>\n<|end|>\n<|tool|>\n{\"temperature\": 22}<|end|>\n<|assistant|>\n",
+   "gen": [
+    [
+     106,
+     114
+    ]
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/tools/false/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "You are a helpful assistant."
+    },
+    {
+     "role": "user",
+     "content": "What's the weather in Paris?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "type": "function",
+       "function": {
+        "name": "get_weather",
+        "arguments": {
+         "city": "Paris"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "name": "get_weather",
+     "content": "{\"temperature\": 22}"
+    }
+   ],
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "Get the current weather in a city.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "City name"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|system|>\nYou are a helpful assistant.<|end|>\n<|user|>\nWhat's the weather in Paris?<|end|>\n<|assistant|>\n<|end|>\n<|tool|>\n{\"temperature\": 22}<|end|>\n",
+   "gen": [
+    [
+     106,
+     114
+    ]
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/reasoning/true/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>\nWhat is 17 * 3?<|end|>\n<|assistant|>\n51<|end|>\n<|user|>\nAnd 17 * 4?<|end|>\n<|assistant|>\n",
+   "gen": [
+    [
+     46,
+     56
+    ]
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/reasoning/false/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 3?"
+    },
+    {
+     "role": "assistant",
+     "content": "51",
+     "reasoning_content": "17 * 3 = 51."
+    },
+    {
+     "role": "user",
+     "content": "And 17 * 4?"
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>\nWhat is 17 * 3?<|end|>\n<|assistant|>\n51<|end|>\n<|user|>\nAnd 17 * 4?<|end|>\n",
+   "gen": [
+    [
+     46,
+     56
+    ]
+   ]
+  }
+ },
+ {
+  "name": "ex/generation/multimodal/true/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate list (not \"str\") to list",
+   "line": 8
+  }
+ },
+ {
+  "name": "ex/generation/multimodal/false/-",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "What is in this picture?"
+      }
+     ]
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": false,
+   "kwargs": {}
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate list (not \"str\") to list",
+   "line": 8
+  }
+ },
+ {
+  "name": "ex/generation/own",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "gen": true,
+  "chat": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Hello!"
+    },
+    {
+     "role": "assistant",
+     "content": "Hi! How can I help?"
+    },
+    {
+     "role": "user",
+     "content": "Tell me a joke."
+    }
+   ],
+   "tools": null,
+   "add_generation_prompt": true,
+   "kwargs": {}
+  },
+  "expected": {
+   "out": "<|user|>\nHello!<|end|>\n<|assistant|>\nHi! How can I help?<|end|>\n<|user|>\nTell me a joke.<|end|>\n<|assistant|>\n",
+   "gen": [
+    [
+     37,
+     64
+    ]
+   ]
+  }
+ },
+ {
+  "name": "vars/generation",
+  "mode": "vars",
+  "template": "{%- for message in messages %}\n  {{- '<|' + message.role + '|>\\n' }}\n  {%- if message.role == 'assistant' %}\n    {%- generation %}\n      {{- message.content + '<|end|>\\n' }}\n    {%- endgeneration %}\n  {%- else %}\n    {{- message.content + '<|end|>\\n' }}\n  {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n  {{- '<|assistant|>\\n' }}\n{%- endif %}\n",
+  "expected": {
+   "vars": [
+    "add_generation_prompt",
+    "messages"
+   ]
+  }
+ }
+]

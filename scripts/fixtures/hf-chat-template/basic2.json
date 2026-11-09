@@ -1,0 +1,3614 @@
+[
+ {
+  "name": "c0",
+  "template": "{{ '{:10}'.format(1234.5678) }}|{{ '{:10}'.format(-0.0001) }}|{{ '{:10}'.format(42) }}|{{ '{:10}'.format(-42) }}|{{ '{:10}'.format(1e20) }}|{{ '{:10}'.format(0.5) }}|{{ '{:10}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": " 1234.5678|   -0.0001|        42|       -42|     1e+20|       0.5|       2.5"
+  }
+ },
+ {
+  "name": "c1",
+  "template": "{{ '{:10}'.format('abc') }}|{{ '{:10}'.format(True) }}|{{ '{:10}'.format(1e-7) }}|{{ '{:10}'.format(123456789) }}|{{ '{:10}'.format(0) }}|{{ '{:10}'.format(-0.0) }}|{{ '{:10}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "out": "abc       |         1|     1e-07| 123456789|         0|      -0.0|       1.0"
+  }
+ },
+ {
+  "name": "c2",
+  "template": "{{ '{:<10}'.format(1234.5678) }}|{{ '{:<10}'.format(-0.0001) }}|{{ '{:<10}'.format(42) }}|{{ '{:<10}'.format(-42) }}|{{ '{:<10}'.format(1e20) }}|{{ '{:<10}'.format(0.5) }}|{{ '{:<10}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.5678 |-0.0001   |42        |-42       |1e+20     |0.5       |2.5       "
+  }
+ },
+ {
+  "name": "c3",
+  "template": "{{ '{:<10}'.format('abc') }}|{{ '{:<10}'.format(True) }}|{{ '{:<10}'.format(1e-7) }}|{{ '{:<10}'.format(123456789) }}|{{ '{:<10}'.format(0) }}|{{ '{:<10}'.format(-0.0) }}|{{ '{:<10}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "out": "abc       |1         |1e-07     |123456789 |0         |-0.0      |1.0       "
+  }
+ },
+ {
+  "name": "c4",
+  "template": "{{ '{:*^9}'.format(1234.5678) }}|{{ '{:*^9}'.format(-0.0001) }}|{{ '{:*^9}'.format(42) }}|{{ '{:*^9}'.format(-42) }}|{{ '{:*^9}'.format(1e20) }}|{{ '{:*^9}'.format(0.5) }}|{{ '{:*^9}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.5678|*-0.0001*|***42****|***-42***|**1e+20**|***0.5***|***2.5***"
+  }
+ },
+ {
+  "name": "c5",
+  "template": "{{ '{:*^9}'.format('abc') }}|{{ '{:*^9}'.format(True) }}|{{ '{:*^9}'.format(1e-7) }}|{{ '{:*^9}'.format(123456789) }}|{{ '{:*^9}'.format(0) }}|{{ '{:*^9}'.format(-0.0) }}|{{ '{:*^9}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "out": "***abc***|****1****|**1e-07**|123456789|****0****|**-0.0***|***1.0***"
+  }
+ },
+ {
+  "name": "c6",
+  "template": "{{ '{:=+8}'.format(1234.5678) }}|{{ '{:=+8}'.format(-0.0001) }}|{{ '{:=+8}'.format(42) }}|{{ '{:=+8}'.format(-42) }}|{{ '{:=+8}'.format(1e20) }}|{{ '{:=+8}'.format(0.5) }}|{{ '{:=+8}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "+1234.5678|- 0.0001|+     42|-     42|+  1e+20|+    0.5|+    2.5"
+  }
+ },
+ {
+  "name": "c7",
+  "template": "{{ '{:=+8}'.format('abc') }}|{{ '{:=+8}'.format(True) }}|{{ '{:=+8}'.format(1e-7) }}|{{ '{:=+8}'.format(123456789) }}|{{ '{:=+8}'.format(0) }}|{{ '{:=+8}'.format(-0.0) }}|{{ '{:=+8}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Sign not allowed in string format specifier",
+   "line": 1
+  }
+ },
+ {
+  "name": "c8",
+  "template": "{{ '{:08.3f}'.format(1234.5678) }}|{{ '{:08.3f}'.format(-0.0001) }}|{{ '{:08.3f}'.format(42) }}|{{ '{:08.3f}'.format(-42) }}|{{ '{:08.3f}'.format(1e20) }}|{{ '{:08.3f}'.format(0.5) }}|{{ '{:08.3f}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.568|-000.000|0042.000|-042.000|100000000000000000000.000|0000.500|0002.500"
+  }
+ },
+ {
+  "name": "c9",
+  "template": "{{ '{:08.3f}'.format('abc') }}|{{ '{:08.3f}'.format(True) }}|{{ '{:08.3f}'.format(1e-7) }}|{{ '{:08.3f}'.format(123456789) }}|{{ '{:08.3f}'.format(0) }}|{{ '{:08.3f}'.format(-0.0) }}|{{ '{:08.3f}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'f' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c10",
+  "template": "{{ '{:,.2f}'.format(1234.5678) }}|{{ '{:,.2f}'.format(-0.0001) }}|{{ '{:,.2f}'.format(42) }}|{{ '{:,.2f}'.format(-42) }}|{{ '{:,.2f}'.format(1e20) }}|{{ '{:,.2f}'.format(0.5) }}|{{ '{:,.2f}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1,234.57|-0.00|42.00|-42.00|100,000,000,000,000,000,000.00|0.50|2.50"
+  }
+ },
+ {
+  "name": "c11",
+  "template": "{{ '{:,.2f}'.format('abc') }}|{{ '{:,.2f}'.format(True) }}|{{ '{:,.2f}'.format(1e-7) }}|{{ '{:,.2f}'.format(123456789) }}|{{ '{:,.2f}'.format(0) }}|{{ '{:,.2f}'.format(-0.0) }}|{{ '{:,.2f}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'f' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c12",
+  "template": "{{ '{:_}'.format(1234.5678) }}|{{ '{:_}'.format(-0.0001) }}|{{ '{:_}'.format(42) }}|{{ '{:_}'.format(-42) }}|{{ '{:_}'.format(1e20) }}|{{ '{:_}'.format(0.5) }}|{{ '{:_}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1_234.5678|-0.0001|42|-42|1e+20|0.5|2.5"
+  }
+ },
+ {
+  "name": "c13",
+  "template": "{{ '{:_}'.format('abc') }}|{{ '{:_}'.format(True) }}|{{ '{:_}'.format(1e-7) }}|{{ '{:_}'.format(123456789) }}|{{ '{:_}'.format(0) }}|{{ '{:_}'.format(-0.0) }}|{{ '{:_}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Cannot specify '_' with 's'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c14",
+  "template": "{{ '{:#x}'.format(1234.5678) }}|{{ '{:#x}'.format(-0.0001) }}|{{ '{:#x}'.format(42) }}|{{ '{:#x}'.format(-42) }}|{{ '{:#x}'.format(1e20) }}|{{ '{:#x}'.format(0.5) }}|{{ '{:#x}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'x' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c15",
+  "template": "{{ '{:#x}'.format('abc') }}|{{ '{:#x}'.format(True) }}|{{ '{:#x}'.format(1e-7) }}|{{ '{:#x}'.format(123456789) }}|{{ '{:#x}'.format(0) }}|{{ '{:#x}'.format(-0.0) }}|{{ '{:#x}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'x' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c16",
+  "template": "{{ '{:#o}'.format(1234.5678) }}|{{ '{:#o}'.format(-0.0001) }}|{{ '{:#o}'.format(42) }}|{{ '{:#o}'.format(-42) }}|{{ '{:#o}'.format(1e20) }}|{{ '{:#o}'.format(0.5) }}|{{ '{:#o}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'o' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c17",
+  "template": "{{ '{:#o}'.format('abc') }}|{{ '{:#o}'.format(True) }}|{{ '{:#o}'.format(1e-7) }}|{{ '{:#o}'.format(123456789) }}|{{ '{:#o}'.format(0) }}|{{ '{:#o}'.format(-0.0) }}|{{ '{:#o}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'o' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c18",
+  "template": "{{ '{:#b}'.format(1234.5678) }}|{{ '{:#b}'.format(-0.0001) }}|{{ '{:#b}'.format(42) }}|{{ '{:#b}'.format(-42) }}|{{ '{:#b}'.format(1e20) }}|{{ '{:#b}'.format(0.5) }}|{{ '{:#b}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'b' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c19",
+  "template": "{{ '{:#b}'.format('abc') }}|{{ '{:#b}'.format(True) }}|{{ '{:#b}'.format(1e-7) }}|{{ '{:#b}'.format(123456789) }}|{{ '{:#b}'.format(0) }}|{{ '{:#b}'.format(-0.0) }}|{{ '{:#b}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'b' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c20",
+  "template": "{{ '{:X}'.format(1234.5678) }}|{{ '{:X}'.format(-0.0001) }}|{{ '{:X}'.format(42) }}|{{ '{:X}'.format(-42) }}|{{ '{:X}'.format(1e20) }}|{{ '{:X}'.format(0.5) }}|{{ '{:X}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'X' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c21",
+  "template": "{{ '{:X}'.format('abc') }}|{{ '{:X}'.format(True) }}|{{ '{:X}'.format(1e-7) }}|{{ '{:X}'.format(123456789) }}|{{ '{:X}'.format(0) }}|{{ '{:X}'.format(-0.0) }}|{{ '{:X}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'X' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c22",
+  "template": "{{ '{:e}'.format(1234.5678) }}|{{ '{:e}'.format(-0.0001) }}|{{ '{:e}'.format(42) }}|{{ '{:e}'.format(-42) }}|{{ '{:e}'.format(1e20) }}|{{ '{:e}'.format(0.5) }}|{{ '{:e}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1.234568e+03|-1.000000e-04|4.200000e+01|-4.200000e+01|1.000000e+20|5.000000e-01|2.500000e+00"
+  }
+ },
+ {
+  "name": "c23",
+  "template": "{{ '{:e}'.format('abc') }}|{{ '{:e}'.format(True) }}|{{ '{:e}'.format(1e-7) }}|{{ '{:e}'.format(123456789) }}|{{ '{:e}'.format(0) }}|{{ '{:e}'.format(-0.0) }}|{{ '{:e}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'e' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c24",
+  "template": "{{ '{:.0e}'.format(1234.5678) }}|{{ '{:.0e}'.format(-0.0001) }}|{{ '{:.0e}'.format(42) }}|{{ '{:.0e}'.format(-42) }}|{{ '{:.0e}'.format(1e20) }}|{{ '{:.0e}'.format(0.5) }}|{{ '{:.0e}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1e+03|-1e-04|4e+01|-4e+01|1e+20|5e-01|2e+00"
+  }
+ },
+ {
+  "name": "c25",
+  "template": "{{ '{:.0e}'.format('abc') }}|{{ '{:.0e}'.format(True) }}|{{ '{:.0e}'.format(1e-7) }}|{{ '{:.0e}'.format(123456789) }}|{{ '{:.0e}'.format(0) }}|{{ '{:.0e}'.format(-0.0) }}|{{ '{:.0e}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'e' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c26",
+  "template": "{{ '{:E}'.format(1234.5678) }}|{{ '{:E}'.format(-0.0001) }}|{{ '{:E}'.format(42) }}|{{ '{:E}'.format(-42) }}|{{ '{:E}'.format(1e20) }}|{{ '{:E}'.format(0.5) }}|{{ '{:E}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1.234568E+03|-1.000000E-04|4.200000E+01|-4.200000E+01|1.000000E+20|5.000000E-01|2.500000E+00"
+  }
+ },
+ {
+  "name": "c27",
+  "template": "{{ '{:E}'.format('abc') }}|{{ '{:E}'.format(True) }}|{{ '{:E}'.format(1e-7) }}|{{ '{:E}'.format(123456789) }}|{{ '{:E}'.format(0) }}|{{ '{:E}'.format(-0.0) }}|{{ '{:E}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'E' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c28",
+  "template": "{{ '{:g}'.format(1234.5678) }}|{{ '{:g}'.format(-0.0001) }}|{{ '{:g}'.format(42) }}|{{ '{:g}'.format(-42) }}|{{ '{:g}'.format(1e20) }}|{{ '{:g}'.format(0.5) }}|{{ '{:g}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.57|-0.0001|42|-42|1e+20|0.5|2.5"
+  }
+ },
+ {
+  "name": "c29",
+  "template": "{{ '{:g}'.format('abc') }}|{{ '{:g}'.format(True) }}|{{ '{:g}'.format(1e-7) }}|{{ '{:g}'.format(123456789) }}|{{ '{:g}'.format(0) }}|{{ '{:g}'.format(-0.0) }}|{{ '{:g}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'g' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c30",
+  "template": "{{ '{:.3g}'.format(1234.5678) }}|{{ '{:.3g}'.format(-0.0001) }}|{{ '{:.3g}'.format(42) }}|{{ '{:.3g}'.format(-42) }}|{{ '{:.3g}'.format(1e20) }}|{{ '{:.3g}'.format(0.5) }}|{{ '{:.3g}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1.23e+03|-0.0001|42|-42|1e+20|0.5|2.5"
+  }
+ },
+ {
+  "name": "c31",
+  "template": "{{ '{:.3g}'.format('abc') }}|{{ '{:.3g}'.format(True) }}|{{ '{:.3g}'.format(1e-7) }}|{{ '{:.3g}'.format(123456789) }}|{{ '{:.3g}'.format(0) }}|{{ '{:.3g}'.format(-0.0) }}|{{ '{:.3g}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'g' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c32",
+  "template": "{{ '{:G}'.format(1234.5678) }}|{{ '{:G}'.format(-0.0001) }}|{{ '{:G}'.format(42) }}|{{ '{:G}'.format(-42) }}|{{ '{:G}'.format(1e20) }}|{{ '{:G}'.format(0.5) }}|{{ '{:G}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.57|-0.0001|42|-42|1E+20|0.5|2.5"
+  }
+ },
+ {
+  "name": "c33",
+  "template": "{{ '{:G}'.format('abc') }}|{{ '{:G}'.format(True) }}|{{ '{:G}'.format(1e-7) }}|{{ '{:G}'.format(123456789) }}|{{ '{:G}'.format(0) }}|{{ '{:G}'.format(-0.0) }}|{{ '{:G}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'G' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c34",
+  "template": "{{ '{:%}'.format(1234.5678) }}|{{ '{:%}'.format(-0.0001) }}|{{ '{:%}'.format(42) }}|{{ '{:%}'.format(-42) }}|{{ '{:%}'.format(1e20) }}|{{ '{:%}'.format(0.5) }}|{{ '{:%}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "123456.780000%|-0.010000%|4200.000000%|-4200.000000%|10000000000000000000000.000000%|50.000000%|250.000000%"
+  }
+ },
+ {
+  "name": "c35",
+  "template": "{{ '{:%}'.format('abc') }}|{{ '{:%}'.format(True) }}|{{ '{:%}'.format(1e-7) }}|{{ '{:%}'.format(123456789) }}|{{ '{:%}'.format(0) }}|{{ '{:%}'.format(-0.0) }}|{{ '{:%}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code '%' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c36",
+  "template": "{{ '{:.1%}'.format(1234.5678) }}|{{ '{:.1%}'.format(-0.0001) }}|{{ '{:.1%}'.format(42) }}|{{ '{:.1%}'.format(-42) }}|{{ '{:.1%}'.format(1e20) }}|{{ '{:.1%}'.format(0.5) }}|{{ '{:.1%}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "123456.8%|-0.0%|4200.0%|-4200.0%|10000000000000000000000.0%|50.0%|250.0%"
+  }
+ },
+ {
+  "name": "c37",
+  "template": "{{ '{:.1%}'.format('abc') }}|{{ '{:.1%}'.format(True) }}|{{ '{:.1%}'.format(1e-7) }}|{{ '{:.1%}'.format(123456789) }}|{{ '{:.1%}'.format(0) }}|{{ '{:.1%}'.format(-0.0) }}|{{ '{:.1%}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code '%' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c38",
+  "template": "{{ '{:n}'.format(1234.5678) }}|{{ '{:n}'.format(-0.0001) }}|{{ '{:n}'.format(42) }}|{{ '{:n}'.format(-42) }}|{{ '{:n}'.format(1e20) }}|{{ '{:n}'.format(0.5) }}|{{ '{:n}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.57|-0.0001|42|-42|1e+20|0.5|2.5"
+  }
+ },
+ {
+  "name": "c39",
+  "template": "{{ '{:n}'.format('abc') }}|{{ '{:n}'.format(True) }}|{{ '{:n}'.format(1e-7) }}|{{ '{:n}'.format(123456789) }}|{{ '{:n}'.format(0) }}|{{ '{:n}'.format(-0.0) }}|{{ '{:n}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'n' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c40",
+  "template": "{{ '{:.2}'.format(1234.5678) }}|{{ '{:.2}'.format(-0.0001) }}|{{ '{:.2}'.format(42) }}|{{ '{:.2}'.format(-42) }}|{{ '{:.2}'.format(1e20) }}|{{ '{:.2}'.format(0.5) }}|{{ '{:.2}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Precision not allowed in integer format specifier",
+   "line": 1
+  }
+ },
+ {
+  "name": "c41",
+  "template": "{{ '{:.2}'.format('abc') }}|{{ '{:.2}'.format(True) }}|{{ '{:.2}'.format(1e-7) }}|{{ '{:.2}'.format(123456789) }}|{{ '{:.2}'.format(0) }}|{{ '{:.2}'.format(-0.0) }}|{{ '{:.2}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Precision not allowed in integer format specifier",
+   "line": 1
+  }
+ },
+ {
+  "name": "c42",
+  "template": "{{ '{:.10}'.format(1234.5678) }}|{{ '{:.10}'.format(-0.0001) }}|{{ '{:.10}'.format(42) }}|{{ '{:.10}'.format(-42) }}|{{ '{:.10}'.format(1e20) }}|{{ '{:.10}'.format(0.5) }}|{{ '{:.10}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Precision not allowed in integer format specifier",
+   "line": 1
+  }
+ },
+ {
+  "name": "c43",
+  "template": "{{ '{:.10}'.format('abc') }}|{{ '{:.10}'.format(True) }}|{{ '{:.10}'.format(1e-7) }}|{{ '{:.10}'.format(123456789) }}|{{ '{:.10}'.format(0) }}|{{ '{:.10}'.format(-0.0) }}|{{ '{:.10}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Precision not allowed in integer format specifier",
+   "line": 1
+  }
+ },
+ {
+  "name": "c44",
+  "template": "{{ '{:010,}'.format(1234.5678) }}|{{ '{:010,}'.format(-0.0001) }}|{{ '{:010,}'.format(42) }}|{{ '{:010,}'.format(-42) }}|{{ '{:010,}'.format(1e20) }}|{{ '{:010,}'.format(0.5) }}|{{ '{:010,}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1,234.5678|-0,000.0001|00,000,042|-0,000,042|00,001e+20|0,000,000.5|0,000,002.5"
+  }
+ },
+ {
+  "name": "c45",
+  "template": "{{ '{:010,}'.format('abc') }}|{{ '{:010,}'.format(True) }}|{{ '{:010,}'.format(1e-7) }}|{{ '{:010,}'.format(123456789) }}|{{ '{:010,}'.format(0) }}|{{ '{:010,}'.format(-0.0) }}|{{ '{:010,}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Cannot specify ',' with 's'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c46",
+  "template": "{{ '{:+.1f}'.format(1234.5678) }}|{{ '{:+.1f}'.format(-0.0001) }}|{{ '{:+.1f}'.format(42) }}|{{ '{:+.1f}'.format(-42) }}|{{ '{:+.1f}'.format(1e20) }}|{{ '{:+.1f}'.format(0.5) }}|{{ '{:+.1f}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "+1234.6|-0.0|+42.0|-42.0|+100000000000000000000.0|+0.5|+2.5"
+  }
+ },
+ {
+  "name": "c47",
+  "template": "{{ '{:+.1f}'.format('abc') }}|{{ '{:+.1f}'.format(True) }}|{{ '{:+.1f}'.format(1e-7) }}|{{ '{:+.1f}'.format(123456789) }}|{{ '{:+.1f}'.format(0) }}|{{ '{:+.1f}'.format(-0.0) }}|{{ '{:+.1f}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'f' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c48",
+  "template": "{{ '{: d}'.format(1234.5678) }}|{{ '{: d}'.format(-0.0001) }}|{{ '{: d}'.format(42) }}|{{ '{: d}'.format(-42) }}|{{ '{: d}'.format(1e20) }}|{{ '{: d}'.format(0.5) }}|{{ '{: d}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'd' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c49",
+  "template": "{{ '{: d}'.format('abc') }}|{{ '{: d}'.format(True) }}|{{ '{: d}'.format(1e-7) }}|{{ '{: d}'.format(123456789) }}|{{ '{: d}'.format(0) }}|{{ '{: d}'.format(-0.0) }}|{{ '{: d}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'd' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c50",
+  "template": "{{ '{:c}'.format(1234.5678) }}|{{ '{:c}'.format(-0.0001) }}|{{ '{:c}'.format(42) }}|{{ '{:c}'.format(-42) }}|{{ '{:c}'.format(1e20) }}|{{ '{:c}'.format(0.5) }}|{{ '{:c}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'c' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c51",
+  "template": "{{ '{:c}'.format('abc') }}|{{ '{:c}'.format(True) }}|{{ '{:c}'.format(1e-7) }}|{{ '{:c}'.format(123456789) }}|{{ '{:c}'.format(0) }}|{{ '{:c}'.format(-0.0) }}|{{ '{:c}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'c' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c52",
+  "template": "{{ '{:5s}'.format(1234.5678) }}|{{ '{:5s}'.format(-0.0001) }}|{{ '{:5s}'.format(42) }}|{{ '{:5s}'.format(-42) }}|{{ '{:5s}'.format(1e20) }}|{{ '{:5s}'.format(0.5) }}|{{ '{:5s}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c53",
+  "template": "{{ '{:5s}'.format('abc') }}|{{ '{:5s}'.format(True) }}|{{ '{:5s}'.format(1e-7) }}|{{ '{:5s}'.format(123456789) }}|{{ '{:5s}'.format(0) }}|{{ '{:5s}'.format(-0.0) }}|{{ '{:5s}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'bool'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c54",
+  "template": "{{ '{:.3s}'.format(1234.5678) }}|{{ '{:.3s}'.format(-0.0001) }}|{{ '{:.3s}'.format(42) }}|{{ '{:.3s}'.format(-42) }}|{{ '{:.3s}'.format(1e20) }}|{{ '{:.3s}'.format(0.5) }}|{{ '{:.3s}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c55",
+  "template": "{{ '{:.3s}'.format('abc') }}|{{ '{:.3s}'.format(True) }}|{{ '{:.3s}'.format(1e-7) }}|{{ '{:.3s}'.format(123456789) }}|{{ '{:.3s}'.format(0) }}|{{ '{:.3s}'.format(-0.0) }}|{{ '{:.3s}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'bool'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c56",
+  "template": "{{ '{:>6.2s}'.format(1234.5678) }}|{{ '{:>6.2s}'.format(-0.0001) }}|{{ '{:>6.2s}'.format(42) }}|{{ '{:>6.2s}'.format(-42) }}|{{ '{:>6.2s}'.format(1e20) }}|{{ '{:>6.2s}'.format(0.5) }}|{{ '{:>6.2s}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c57",
+  "template": "{{ '{:>6.2s}'.format('abc') }}|{{ '{:>6.2s}'.format(True) }}|{{ '{:>6.2s}'.format(1e-7) }}|{{ '{:>6.2s}'.format(123456789) }}|{{ '{:>6.2s}'.format(0) }}|{{ '{:>6.2s}'.format(-0.0) }}|{{ '{:>6.2s}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'bool'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c58",
+  "template": "{{ '{:z.1f}'.format(1234.5678) }}|{{ '{:z.1f}'.format(-0.0001) }}|{{ '{:z.1f}'.format(42) }}|{{ '{:z.1f}'.format(-42) }}|{{ '{:z.1f}'.format(1e20) }}|{{ '{:z.1f}'.format(0.5) }}|{{ '{:z.1f}'.format(2.5) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1234.6|0.0|42.0|-42.0|100000000000000000000.0|0.5|2.5"
+  }
+ },
+ {
+  "name": "c59",
+  "template": "{{ '{:z.1f}'.format('abc') }}|{{ '{:z.1f}'.format(True) }}|{{ '{:z.1f}'.format(1e-7) }}|{{ '{:z.1f}'.format(123456789) }}|{{ '{:z.1f}'.format(0) }}|{{ '{:z.1f}'.format(-0.0) }}|{{ '{:z.1f}'.format(1.0) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'f' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c60",
+  "template": "{{ '%s' % (42,) }}|{{ '%s' % (-3.75,) }}|{{ '%s' % (1e20,) }}|{{ '%s' % (65,) }}|{{ '%s' % (0.000012345,) }}|{{ '%s' % ('x',) }}|{{ '%s' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "out": "42|-3.75|1e+20|65|1.2345e-05|x|True"
+  }
+ },
+ {
+  "name": "c61",
+  "template": "{{ '%r' % (42,) }}|{{ '%r' % (-3.75,) }}|{{ '%r' % (1e20,) }}|{{ '%r' % (65,) }}|{{ '%r' % (0.000012345,) }}|{{ '%r' % ('x',) }}|{{ '%r' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "out": "42|-3.75|1e+20|65|1.2345e-05|'x'|True"
+  }
+ },
+ {
+  "name": "c62",
+  "template": "{{ '%d' % (42,) }}|{{ '%d' % (-3.75,) }}|{{ '%d' % (1e20,) }}|{{ '%d' % (65,) }}|{{ '%d' % (0.000012345,) }}|{{ '%d' % ('x',) }}|{{ '%d' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c63",
+  "template": "{{ '%5d' % (42,) }}|{{ '%5d' % (-3.75,) }}|{{ '%5d' % (1e20,) }}|{{ '%5d' % (65,) }}|{{ '%5d' % (0.000012345,) }}|{{ '%5d' % ('x',) }}|{{ '%5d' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c64",
+  "template": "{{ '%-5d|' % (42,) }}|{{ '%-5d|' % (-3.75,) }}|{{ '%-5d|' % (1e20,) }}|{{ '%-5d|' % (65,) }}|{{ '%-5d|' % (0.000012345,) }}|{{ '%-5d|' % ('x',) }}|{{ '%-5d|' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c65",
+  "template": "{{ '%05d' % (42,) }}|{{ '%05d' % (-3.75,) }}|{{ '%05d' % (1e20,) }}|{{ '%05d' % (65,) }}|{{ '%05d' % (0.000012345,) }}|{{ '%05d' % ('x',) }}|{{ '%05d' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c66",
+  "template": "{{ '%+d' % (42,) }}|{{ '%+d' % (-3.75,) }}|{{ '%+d' % (1e20,) }}|{{ '%+d' % (65,) }}|{{ '%+d' % (0.000012345,) }}|{{ '%+d' % ('x',) }}|{{ '%+d' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c67",
+  "template": "{{ '% d' % (42,) }}|{{ '% d' % (-3.75,) }}|{{ '% d' % (1e20,) }}|{{ '% d' % (65,) }}|{{ '% d' % (0.000012345,) }}|{{ '% d' % ('x',) }}|{{ '% d' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c68",
+  "template": "{{ '%x' % (42,) }}|{{ '%x' % (-3.75,) }}|{{ '%x' % (1e20,) }}|{{ '%x' % (65,) }}|{{ '%x' % (0.000012345,) }}|{{ '%x' % ('x',) }}|{{ '%x' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%x format: an integer is required, not float",
+   "line": 1
+  }
+ },
+ {
+  "name": "c69",
+  "template": "{{ '%X' % (42,) }}|{{ '%X' % (-3.75,) }}|{{ '%X' % (1e20,) }}|{{ '%X' % (65,) }}|{{ '%X' % (0.000012345,) }}|{{ '%X' % ('x',) }}|{{ '%X' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%X format: an integer is required, not float",
+   "line": 1
+  }
+ },
+ {
+  "name": "c70",
+  "template": "{{ '%#x' % (42,) }}|{{ '%#x' % (-3.75,) }}|{{ '%#x' % (1e20,) }}|{{ '%#x' % (65,) }}|{{ '%#x' % (0.000012345,) }}|{{ '%#x' % ('x',) }}|{{ '%#x' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%x format: an integer is required, not float",
+   "line": 1
+  }
+ },
+ {
+  "name": "c71",
+  "template": "{{ '%o' % (42,) }}|{{ '%o' % (-3.75,) }}|{{ '%o' % (1e20,) }}|{{ '%o' % (65,) }}|{{ '%o' % (0.000012345,) }}|{{ '%o' % ('x',) }}|{{ '%o' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%o format: an integer is required, not float",
+   "line": 1
+  }
+ },
+ {
+  "name": "c72",
+  "template": "{{ '%#o' % (42,) }}|{{ '%#o' % (-3.75,) }}|{{ '%#o' % (1e20,) }}|{{ '%#o' % (65,) }}|{{ '%#o' % (0.000012345,) }}|{{ '%#o' % ('x',) }}|{{ '%#o' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%o format: an integer is required, not float",
+   "line": 1
+  }
+ },
+ {
+  "name": "c73",
+  "template": "{{ '%e' % (42,) }}|{{ '%e' % (-3.75,) }}|{{ '%e' % (1e20,) }}|{{ '%e' % (65,) }}|{{ '%e' % (0.000012345,) }}|{{ '%e' % ('x',) }}|{{ '%e' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c74",
+  "template": "{{ '%.2e' % (42,) }}|{{ '%.2e' % (-3.75,) }}|{{ '%.2e' % (1e20,) }}|{{ '%.2e' % (65,) }}|{{ '%.2e' % (0.000012345,) }}|{{ '%.2e' % ('x',) }}|{{ '%.2e' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c75",
+  "template": "{{ '%E' % (42,) }}|{{ '%E' % (-3.75,) }}|{{ '%E' % (1e20,) }}|{{ '%E' % (65,) }}|{{ '%E' % (0.000012345,) }}|{{ '%E' % ('x',) }}|{{ '%E' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c76",
+  "template": "{{ '%f' % (42,) }}|{{ '%f' % (-3.75,) }}|{{ '%f' % (1e20,) }}|{{ '%f' % (65,) }}|{{ '%f' % (0.000012345,) }}|{{ '%f' % ('x',) }}|{{ '%f' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c77",
+  "template": "{{ '%.1f' % (42,) }}|{{ '%.1f' % (-3.75,) }}|{{ '%.1f' % (1e20,) }}|{{ '%.1f' % (65,) }}|{{ '%.1f' % (0.000012345,) }}|{{ '%.1f' % ('x',) }}|{{ '%.1f' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c78",
+  "template": "{{ '%10.3f' % (42,) }}|{{ '%10.3f' % (-3.75,) }}|{{ '%10.3f' % (1e20,) }}|{{ '%10.3f' % (65,) }}|{{ '%10.3f' % (0.000012345,) }}|{{ '%10.3f' % ('x',) }}|{{ '%10.3f' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c79",
+  "template": "{{ '%-10.3f|' % (42,) }}|{{ '%-10.3f|' % (-3.75,) }}|{{ '%-10.3f|' % (1e20,) }}|{{ '%-10.3f|' % (65,) }}|{{ '%-10.3f|' % (0.000012345,) }}|{{ '%-10.3f|' % ('x',) }}|{{ '%-10.3f|' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c80",
+  "template": "{{ '%g' % (42,) }}|{{ '%g' % (-3.75,) }}|{{ '%g' % (1e20,) }}|{{ '%g' % (65,) }}|{{ '%g' % (0.000012345,) }}|{{ '%g' % ('x',) }}|{{ '%g' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c81",
+  "template": "{{ '%G' % (42,) }}|{{ '%G' % (-3.75,) }}|{{ '%G' % (1e20,) }}|{{ '%G' % (65,) }}|{{ '%G' % (0.000012345,) }}|{{ '%G' % ('x',) }}|{{ '%G' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c82",
+  "template": "{{ '%.3g' % (42,) }}|{{ '%.3g' % (-3.75,) }}|{{ '%.3g' % (1e20,) }}|{{ '%.3g' % (65,) }}|{{ '%.3g' % (0.000012345,) }}|{{ '%.3g' % ('x',) }}|{{ '%.3g' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "must be real number, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c83",
+  "template": "{{ '%c' % (42,) }}|{{ '%c' % (-3.75,) }}|{{ '%c' % (1e20,) }}|{{ '%c' % (65,) }}|{{ '%c' % (0.000012345,) }}|{{ '%c' % ('x',) }}|{{ '%c' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%c requires an int or a unicode character, not float",
+   "line": 1
+  }
+ },
+ {
+  "name": "c84",
+  "template": "{{ '%%' % (42,) }}|{{ '%%' % (-3.75,) }}|{{ '%%' % (1e20,) }}|{{ '%%' % (65,) }}|{{ '%%' % (0.000012345,) }}|{{ '%%' % ('x',) }}|{{ '%%' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "not all arguments converted during string formatting",
+   "line": 1
+  }
+ },
+ {
+  "name": "c85",
+  "template": "{{ '%i' % (42,) }}|{{ '%i' % (-3.75,) }}|{{ '%i' % (1e20,) }}|{{ '%i' % (65,) }}|{{ '%i' % (0.000012345,) }}|{{ '%i' % ('x',) }}|{{ '%i' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%i format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c86",
+  "template": "{{ '%u' % (42,) }}|{{ '%u' % (-3.75,) }}|{{ '%u' % (1e20,) }}|{{ '%u' % (65,) }}|{{ '%u' % (0.000012345,) }}|{{ '%u' % ('x',) }}|{{ '%u' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%u format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c87",
+  "template": "{{ '%a' % (42,) }}|{{ '%a' % (-3.75,) }}|{{ '%a' % (1e20,) }}|{{ '%a' % (65,) }}|{{ '%a' % (0.000012345,) }}|{{ '%a' % ('x',) }}|{{ '%a' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "out": "42|-3.75|1e+20|65|1.2345e-05|'x'|True"
+  }
+ },
+ {
+  "name": "c88",
+  "template": "{{ '%5.1s|' % (42,) }}|{{ '%5.1s|' % (-3.75,) }}|{{ '%5.1s|' % (1e20,) }}|{{ '%5.1s|' % (65,) }}|{{ '%5.1s|' % (0.000012345,) }}|{{ '%5.1s|' % ('x',) }}|{{ '%5.1s|' % (True,) }}",
+  "ctx": {},
+  "expected": {
+   "out": "    4||    -||    1||    6||    1||    x||    T|"
+  }
+ },
+ {
+  "name": "c89",
+  "template": "{{ '%(a)s-%(b)05.1f' % {'a': 'x', 'b': 2.25} }}",
+  "ctx": {},
+  "expected": {
+   "out": "x-002.2"
+  }
+ },
+ {
+  "name": "c90",
+  "template": "{{ '%*d|%-*d|' % (5, 42, 4, 7) }}",
+  "ctx": {},
+  "expected": {
+   "out": "   42|7   |"
+  }
+ },
+ {
+  "name": "c91",
+  "template": "{{ '%.*f' % (2, 3.14159) }}",
+  "ctx": {},
+  "expected": {
+   "out": "3.14"
+  }
+ },
+ {
+  "name": "c92",
+  "template": "{{ '%s %s' % ('a',) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "not enough arguments for format string",
+   "line": 1
+  }
+ },
+ {
+  "name": "c93",
+  "template": "{{ '%s' % ('a', 'b') }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "not all arguments converted during string formatting",
+   "line": 1
+  }
+ },
+ {
+  "name": "c94",
+  "template": "{{ '%q' % 1 }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "unsupported format character 'q' (0x71) at index 1",
+   "line": 1
+  }
+ },
+ {
+  "name": "c95",
+  "template": "{{ '%d' % 'x' }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "%d format: a real number is required, not str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c96",
+  "template": "{{ '%(x)s' % 1 }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "format requires a mapping",
+   "line": 1
+  }
+ },
+ {
+  "name": "c97",
+  "template": "{{ '%s' % none }}",
+  "ctx": {},
+  "expected": {
+   "out": "None"
+  }
+ },
+ {
+  "name": "c98",
+  "template": "{{ '%s' % {'a': 1} }}",
+  "ctx": {},
+  "expected": {
+   "out": "{'a': 1}"
+  }
+ },
+ {
+  "name": "c99",
+  "template": "{{ '%' % 1 }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "incomplete format",
+   "line": 1
+  }
+ },
+ {
+  "name": "c100",
+  "template": "{{ '{0}{1}'.format(1) }}",
+  "ctx": {},
+  "expected": {
+   "error": "IndexError",
+   "message": "tuple index out of range",
+   "line": 1
+  }
+ },
+ {
+  "name": "c101",
+  "template": "{{ '{}{0}'.format(1, 2) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "cannot switch from automatic field numbering to manual field specification",
+   "line": 1
+  }
+ },
+ {
+  "name": "c102",
+  "template": "{{ '{x}'.format(1) }}",
+  "ctx": {},
+  "expected": {
+   "error": "KeyError",
+   "message": "'x'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c103",
+  "template": "{{ '{'.format() }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Single '{' encountered in format string",
+   "line": 1
+  }
+ },
+ {
+  "name": "c104",
+  "template": "{{ '}'.format() }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Single '}' encountered in format string",
+   "line": 1
+  }
+ },
+ {
+  "name": "c105",
+  "template": "{{ '{:d}'.format('a') }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 'd' for object of type 'str'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c106",
+  "template": "{{ '{:s}'.format(1) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown format code 's' for object of type 'int'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c107",
+  "template": "{{ '{0.real} {0.imag}'.format(3) }}",
+  "ctx": {},
+  "expected": {
+   "out": "3 0"
+  }
+ },
+ {
+  "name": "c108",
+  "template": "{{ '{0[0]}{0[1]}'.format('ab') }}",
+  "ctx": {},
+  "expected": {
+   "out": "ab"
+  }
+ },
+ {
+  "name": "c109",
+  "template": "{{ '{:{w}}|'.format('x', w=4) }}",
+  "ctx": {},
+  "expected": {
+   "out": "x   |"
+  }
+ },
+ {
+  "name": "c110",
+  "template": "{{ '{!x}'.format(1) }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "Unknown conversion specifier x",
+   "line": 1
+  }
+ },
+ {
+  "name": "c111",
+  "template": "{{ '{0.__class__}'.format(1) }}",
+  "ctx": {},
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "c112",
+  "template": "{{ '{:.2f}'.format(none) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported format string passed to NoneType.__format__",
+   "line": 1
+  }
+ },
+ {
+  "name": "c113",
+  "template": "{{ '{}'.format(none) }}",
+  "ctx": {},
+  "expected": {
+   "out": "None"
+  }
+ },
+ {
+  "name": "c114",
+  "template": "{{ '{} {}'.format([1], {'a': (1,)}) }}",
+  "ctx": {},
+  "expected": {
+   "out": "[1] {'a': (1,)}"
+  }
+ },
+ {
+  "name": "c115",
+  "template": "{{ 'a{}b'.format_map({}) }}",
+  "ctx": {},
+  "expected": {
+   "error": "IndexError",
+   "message": "tuple index out of range",
+   "line": 1
+  }
+ },
+ {
+  "name": "c116",
+  "template": "{{ '{x}{y}'.format_map({'x': 1, 'y': 'z'}) }}",
+  "ctx": {},
+  "expected": {
+   "out": "1z"
+  }
+ },
+ {
+  "name": "c117",
+  "template": "{{ 1e16 }} {{ 1.5e16 }} {{ 9999999999999998.0 }} {{ 0.1 * 3 }} {{ 1/7 }} {{ 1e-4 }} {{ 1.23e-5 }} {{ 5e-324 }} {{ 1.7976931348623157e308 }} {{ 2.0**53 }} {{ 2.0**53 + 1 }} {{ 100.0 }} {{ 123456789012345678.0 }}",
+  "ctx": {},
+  "expected": {
+   "out": "1e+16 1.5e+16 9999999999999998.0 0.30000000000000004 0.14285714285714285 0.0001 1.23e-05 5e-324 1.7976931348623157e+308 9007199254740992.0 9007199254740992.0 100.0 1.2345678901234568e+17"
+  }
+ },
+ {
+  "name": "c118",
+  "template": "{{ 10 / 4 }} {{ 10 // 4 }} {{ -10 // 4 }} {{ 10 % -3 }} {{ -10 % 3 }} {{ 10.5 % 3 }} {{ -10.5 % 3 }} {{ 10.5 // -3 }} {{ 2 ** 64 }} {{ (2 ** 64) // 3 }} {{ (2 ** 70) / 3 }} {{ 10 ** 20 / 7 }} {{ 7 / 2.0 }} {{ true + true }} {{ true * 3 }} {{ true / 2 }} {{ -true }}",
+  "ctx": {},
+  "expected": {
+   "out": "2.5 2 -3 -2 2 1.5 1.5 -4.0 18446744073709551616 6148914691236517205 3.935305402391371e+20 1.4285714285714287e+19 3.5 2 3 0.5 -1"
+  }
+ },
+ {
+  "name": "c119",
+  "template": "{{ 0 ** 0 }} {{ 2 ** 0.5 }} {{ 4 ** 0.5 }} {{ (-8) ** 2 }} {{ 0.0 ** 0 }} {{ 10 ** -2 }} {{ (-2) ** -1 }}",
+  "ctx": {},
+  "expected": {
+   "out": "1 1.4142135623730951 2.0 64 1.0 0.01 -0.5"
+  }
+ },
+ {
+  "name": "c120",
+  "template": "{{ 0 ** -1 }}",
+  "ctx": {},
+  "expected": {
+   "error": "ZeroDivisionError",
+   "message": "zero to a negative power",
+   "line": 1
+  }
+ },
+ {
+  "name": "c121",
+  "template": "{{ 2.0 ** 10000 }}",
+  "ctx": {},
+  "expected": {
+   "error": "OverflowError",
+   "message": "(34, 'Result too large')",
+   "line": 1
+  }
+ },
+ {
+  "name": "c122",
+  "template": "{{ (-8) ** 0.5 }}",
+  "ctx": {},
+  "expected": {
+   "out": "(1.7319121124709868e-16+2.8284271247461903j)"
+  }
+ },
+ {
+  "name": "c123",
+  "template": "{{ 3 * [1] }} {{ [1] * 0 }} {{ [1] * -1 }} {{ 'ab' * true }} {{ (1,) * 2 }}",
+  "ctx": {},
+  "expected": {
+   "out": "[1, 1, 1] [] [] ab (1, 1)"
+  }
+ },
+ {
+  "name": "c124",
+  "template": "{{ 'a' * 1.5 }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "can't multiply sequence by non-int of type 'float'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c125",
+  "template": "{{ [1] * [1] }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "can't multiply sequence by non-int of type 'list'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c126",
+  "template": "{{ {} + {} }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported operand type(s) for +: 'dict' and 'dict'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c127",
+  "template": "{{ none + 1 }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported operand type(s) for +: 'NoneType' and 'int'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c128",
+  "template": "{{ 1 - none }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "unsupported operand type(s) for -: 'int' and 'NoneType'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c129",
+  "template": "{{ 'a' < 1 }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "'<' not supported between instances of 'str' and 'int'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c130",
+  "template": "{{ [1] < (1,) }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "'<' not supported between instances of 'list' and 'tuple'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c131",
+  "template": "{{ [1, 'a'] < [1, 2] }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "'<' not supported between instances of 'str' and 'int'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c132",
+  "template": "{{ 'abc' < 'abd' }} {{ 'Z' < 'a' }} {{ '' < 'a' }} {{ 'é' > 'z' }} {{ '\\uffff' < '\\U0001f600' }} {{ [1,2] == [1,2] }} {{ [1,2] == (1,2) }} {{ {'a':1} == {'a':1.0} }} {{ none == none }} {{ none == false }} {{ 0 == 0.0 == false }}",
+  "ctx": {},
+  "expected": {
+   "out": "True True True True True True False True True False True"
+  }
+ },
+ {
+  "name": "c133",
+  "template": "{{ 'ab' in 'xaby' }} {{ '' in 'x' }} {{ 1 in [1.0] }} {{ none in [none] }} {{ [1] in [[1]] }} {{ 'a' in {'a': 1} }} {{ 2 in range(3) }} {{ 'x' in none }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "argument of type 'NoneType' is not a container or iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "c134",
+  "template": "{{ [1] in {} }}",
+  "ctx": {},
+  "expected": {
+   "error": "TypeError",
+   "message": "cannot use 'list' as a dict key (unhashable type: 'list')",
+   "line": 1
+  }
+ },
+ {
+  "name": "c135",
+  "template": "{{ 1 in {'a': 1}.values() }} {{ 'a' in {'a':1}.keys() }} {{ ('a', 1) in {'a':1}.items() }}",
+  "ctx": {},
+  "expected": {
+   "out": "True True True"
+  }
+ },
+ {
+  "name": "c136",
+  "template": "{{ (1, 2)[0] }} {{ (1, 2)[-1] }} {{ (1,2,3)[1:] }} {{ 'abc'[-5:] }} {{ [1,2,3][::2] }} {{ [1,2,3][5:] }} {{ range(10)[2:8:3]|list }} {{ range(10)[::-3]|list }} {{ 'abcdef'[4:1:-1] }}",
+  "ctx": {},
+  "expected": {
+   "out": "1 2 (2, 3) abc [1, 3] [] [2, 5] [9, 6, 3, 0] edc"
+  }
+ },
+ {
+  "name": "c137",
+  "template": "{{ [1][::0] }}",
+  "ctx": {},
+  "expected": {
+   "error": "ValueError",
+   "message": "slice step cannot be zero",
+   "line": 1
+  }
+ },
+ {
+  "name": "c138",
+  "template": "{{ none[1:] }}",
+  "ctx": {},
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "c139",
+  "template": "{{ x[1:] }}",
+  "ctx": {},
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "c140",
+  "template": "{{ [1]['a':] }}",
+  "ctx": {},
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "c141",
+  "template": "{{ {'a': 1}.a }} {{ {'a': {'b': [1, 2]}}.a.b[1] }} {{ [[1, 2]].0.1 }} {{ {'1': 'str', 1: 'int'}[1] }} {{ {'1': 'str', 1: 'int'}['1'] }} {{ {(1,2): 'tup'}[(1,2)] }} {{ {none: 'n'}[none] }} {{ {1.0: 'f'}[1] }}",
+  "ctx": {},
+  "expected": {
+   "out": "1 2 2 int str tup n f"
+  }
+ },
+ {
+  "name": "c142",
+  "template": "{{ 'x'.upper }}",
+  "ctx": {},
+  "expected": {
+   "out": "<built-in method upper of str object at 0x0>"
+  }
+ },
+ {
+  "name": "c143",
+  "template": "{{ [].count }}",
+  "ctx": {},
+  "expected": {
+   "out": "<built-in method count of list object at 0x0>"
+  }
+ },
+ {
+  "name": "c144",
+  "template": "{{ {}.get }}",
+  "ctx": {},
+  "expected": {
+   "out": "<built-in method get of dict object at 0x0>"
+  }
+ },
+ {
+  "name": "c145",
+  "template": "{{ (1,).index }}",
+  "ctx": {},
+  "expected": {
+   "out": "<built-in method index of tuple object at 0x0>"
+  }
+ },
+ {
+  "name": "c146",
+  "template": "{{ 1.5.is_integer() }} {{ (2.0).is_integer() }} {{ 5.real }} {{ (5).bit_length() }} {{ true.real }}",
+  "ctx": {},
+  "expected": {
+   "out": "False True 5 3 1"
+  }
+ },
+ {
+  "name": "c147",
+  "template": "{%- if true %}  x  {% endif -%}  ",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "  x  "
+  }
+ },
+ {
+  "name": "c148",
+  "template": "x\n  {%- if true %}\n    y\n  {%- endif %}\nz",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "x    yz"
+  }
+ },
+ {
+  "name": "c149",
+  "template": "a\n{# comment #}\nb",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "a\nb"
+  }
+ },
+ {
+  "name": "c150",
+  "template": "a\n  {#- c -#}\n  b",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "ab"
+  }
+ },
+ {
+  "name": "c151",
+  "template": "{% if true %}a{% endif %}\n\n\nb",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "a\n\nb"
+  }
+ },
+ {
+  "name": "c152",
+  "template": "{% for i in range(2) %}\n  - {{ i }}\n{% endfor %}\n",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "  - 0\n  - 1\n"
+  }
+ },
+ {
+  "name": "c153",
+  "template": "  {%- for i in range(2) -%}\n  {{ i }}\n  {%- endfor -%}  ",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "01"
+  }
+ },
+ {
+  "name": "c154",
+  "template": "line\n\t  {% if 1 %}tab{% endif %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "line\ntab"
+  }
+ },
+ {
+  "name": "c155",
+  "template": "{{ 'a' }}\n{{ 'b' }}\n",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "a\nb"
+  }
+ },
+ {
+  "name": "c156",
+  "template": "x {%- raw %} {{ y }} {% endraw -%} z",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "x {{ y }} z"
+  }
+ },
+ {
+  "name": "c157",
+  "template": "{%+ if true +%}\n x\n{%+ endif +%}\n",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "\n x\n"
+  }
+ },
+ {
+  "name": "c158",
+  "template": "  {{- 'x' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "x"
+  }
+ },
+ {
+  "name": "c159",
+  "template": "{{ 'x' -}}  \n  y",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "xy"
+  }
+ },
+ {
+  "name": "c160",
+  "template": "a\r\n  {% if 1 %}\r\nb\r\n  {% endif %}\r\nc\r\n",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "a\nb\nc"
+  }
+ },
+ {
+  "name": "c161",
+  "template": "\n\n{% set x = 1 %}\n\n",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "\n\n"
+  }
+ },
+ {
+  "name": "c162",
+  "template": "{# a #}{# b #}x",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "x"
+  }
+ },
+ {
+  "name": "c163",
+  "template": "{{ '\\n' }}{{ \"\\t\" }}{{ '\\\\' }}{{ '\\'' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "\n\t\\'"
+  }
+ },
+ {
+  "name": "c164",
+  "template": "{{ 1 }}{{\n2\n}}{{3}}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "123"
+  }
+ },
+ {
+  "name": "c165",
+  "template": "{%if true%}t{%endif%}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "t"
+  }
+ },
+ {
+  "name": "c166",
+  "template": "{%   if   true   %}t{%   endif   %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "t"
+  }
+ },
+ {
+  "name": "c167",
+  "template": "{{ a\n.b }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'a' is undefined",
+   "line": 2
+  }
+ },
+ {
+  "name": "c168",
+  "template": "{{ [1,\n 2,\n 3]|length }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "3"
+  }
+ },
+ {
+  "name": "c169",
+  "template": "{{ {\n'k': 'v'\n}['k'] }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "v"
+  }
+ },
+ {
+  "name": "c170",
+  "template": "{{ x if x is defined else 'd' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "d"
+  }
+ },
+ {
+  "name": "c171",
+  "template": "{% if x is not defined %}nd{% endif %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "nd"
+  }
+ },
+ {
+  "name": "c172",
+  "template": "{{ not x is defined }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c173",
+  "template": "{{ not (x is defined) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c174",
+  "template": "{{ -2 ** 2 }} {{ - 2 ** 2 }} {{ (-2) ** 2 }} {{ 2 ** -1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "4 4 4 0.5"
+  }
+ },
+ {
+  "name": "c175",
+  "template": "{{ 1 + 2 * 3 - 4 / 2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "5.0"
+  }
+ },
+ {
+  "name": "c176",
+  "template": "{{ 'a' ~ 1 + 2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "can only concatenate str (not \"int\") to str",
+   "line": 1
+  }
+ },
+ {
+  "name": "c177",
+  "template": "{{ 1 ~ 2 * 3 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "16"
+  }
+ },
+ {
+  "name": "c178",
+  "template": "{{ 1 if true else 2 if false else 3 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "c179",
+  "template": "{{ (1 if false) is defined }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "False"
+  }
+ },
+ {
+  "name": "c180",
+  "template": "{{ 'a' 'b' 'c' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "abc"
+  }
+ },
+ {
+  "name": "c181",
+  "template": "{{ 'a'|upper|lower|capitalize }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "A"
+  }
+ },
+ {
+  "name": "c182",
+  "template": "{{ [3,1,2]|sort|first }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "c183",
+  "template": "{{ 'abc'|length > 2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c184",
+  "template": "{{ 'abc' is string and 'abc'|length }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "3"
+  }
+ },
+ {
+  "name": "c185",
+  "template": "{{ not 'a' in 'abc' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "False"
+  }
+ },
+ {
+  "name": "c186",
+  "template": "{{ 'a' not in 'abc' }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "False"
+  }
+ },
+ {
+  "name": "c187",
+  "template": "{{ 1 is divisibleby 2 or true }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c188",
+  "template": "{{ x is defined and x.y }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "False"
+  }
+ },
+ {
+  "name": "c189",
+  "template": "{{ 3 is gt 2 and 1 is lt 2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c190",
+  "template": "{{ range(3) is iterable }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c191",
+  "template": "{{ loop is defined }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "False"
+  }
+ },
+ {
+  "name": "c192",
+  "template": "{{ 'a' if true else }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c193",
+  "template": "{{ 1 + }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c194",
+  "template": "{% set %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c195",
+  "template": "{% set x = %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c196",
+  "template": "{% for x in %}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c197",
+  "template": "{% if %}{% endif %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c198",
+  "template": "{% macro %}{% endmacro %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c199",
+  "template": "{% macro m( %}{% endmacro %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got '%'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c200",
+  "template": "{% call %}{% endcall %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c201",
+  "template": "{% call m %}{% endcall %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected call",
+   "line": 1
+  }
+ },
+ {
+  "name": "c202",
+  "template": "{% filter %}{% endfilter %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c203",
+  "template": "{% with a %}{% endwith %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token '=', got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c204",
+  "template": "{% set x.y.z = 1 %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'end of statement block', got '.'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c205",
+  "template": "{% set x['a'] = 1 %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'end of statement block', got '['",
+   "line": 1
+  }
+ },
+ {
+  "name": "c206",
+  "template": "{% set (a, b) = (1, 2) %}{{ a }}{{ b }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "12"
+  }
+ },
+ {
+  "name": "c207",
+  "template": "{% for (a, b) in [(1, 2)] %}{{ a }}{{ b }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "12"
+  }
+ },
+ {
+  "name": "c208",
+  "template": "{% for a, (b, c) in [(1, (2, 3))] %}{{ a }}{{ b }}{{ c }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "123"
+  }
+ },
+ {
+  "name": "c209",
+  "template": "{% set a, = [1] %}{{ a }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '='",
+   "line": 1
+  }
+ },
+ {
+  "name": "c210",
+  "template": "{{ x.0 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "c211",
+  "template": "{{ x.-1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected name or number",
+   "line": 1
+  }
+ },
+ {
+  "name": "c212",
+  "template": "{{ [1,2].-1 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected name or number",
+   "line": 1
+  }
+ },
+ {
+  "name": "c213",
+  "template": "{{ x.1.2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "'x' is undefined",
+   "line": 1
+  }
+ },
+ {
+  "name": "c214",
+  "template": "{{ 1.2.3 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "c215",
+  "template": "{{ 1..2 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected name or number",
+   "line": 1
+  }
+ },
+ {
+  "name": "c216",
+  "template": "{{ @ }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char '@' at 3",
+   "line": 1
+  }
+ },
+ {
+  "name": "c217",
+  "template": "{{ $x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char '$' at 3",
+   "line": 1
+  }
+ },
+ {
+  "name": "c218",
+  "template": "{{ x ! y }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char '!' at 5",
+   "line": 1
+  }
+ },
+ {
+  "name": "c219",
+  "template": "{{ x && y }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char '&' at 5",
+   "line": 1
+  }
+ },
+ {
+  "name": "c220",
+  "template": "{{ x || y }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got '|'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c221",
+  "template": "{{ x ** }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c222",
+  "template": "{{ x // }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected 'end of print statement'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c223",
+  "template": "{{ 'unterminated }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char \"'\" at 3",
+   "line": 1
+  }
+ },
+ {
+  "name": "c224",
+  "template": "{{ \"also }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected char '\"' at 3",
+   "line": 1
+  }
+ },
+ {
+  "name": "c225",
+  "template": "{% if 'a' == \"b\" %}{% endif %}ok",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "ok"
+  }
+ },
+ {
+  "name": "c226",
+  "template": "{{ x[ }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '}', expected ']'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c227",
+  "template": "{{ x] }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected ']'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c228",
+  "template": "{{ x( }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '}', expected ')'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c229",
+  "template": "{{ (x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '}', expected ')'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c230",
+  "template": "{{ x) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected ')'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c231",
+  "template": "{{ {x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token ':', got '}'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c232",
+  "template": "{{ x} }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "unexpected '}'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c233",
+  "template": "{% for i in range(3) %}{{ i }}{% else %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Unexpected end of template. Jinja was looking for the following tags: 'endfor'. The innermost block that needs to be closed is 'for'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c234",
+  "template": "{% if 1 %}{% elif %}{% endif %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Expected an expression, got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c235",
+  "template": "{% if 1 %}{% else %}{% else %}{% endif %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'else'. Jinja was looking for the following tags: 'endif'. The innermost block that needs to be closed is 'if'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c236",
+  "template": "{% macro m() %}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'endfor'. Jinja was looking for the following tags: 'endmacro'. The innermost block that needs to be closed is 'macro'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c237",
+  "template": "{% for i in x %}{% endmacro %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'endmacro'. Jinja was looking for the following tags: 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c238",
+  "template": "{% block %}{% endblock %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got 'end of statement block'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c239",
+  "template": "{% block a-b %}{% endblock %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Block names in Jinja have to be valid Python identifiers and may not contain hyphens, use an underscore instead.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c240",
+  "template": "{% block a %}{% endblock b %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'end of statement block', got 'b'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c241",
+  "template": "{% set x = 1 %}{% set x = x + 1 %}{{ x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "2"
+  }
+ },
+ {
+  "name": "c242",
+  "template": "{% set x = [1] %}{% set y = x %}{{ y is sameas x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c243",
+  "template": "{% set d = {} %}{% set _ = d.update({'a': 1}) %}{{ d }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "SecurityError",
+   "message": "access to attribute 'update' of 'dict' object is unsafe.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c244",
+  "template": "{% for i in range(2) %}{% for j in range(2) %}{% if j == 1 %}{% break %}{% endif %}{{ i }}{{ j }} {% endfor %}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "00 10 "
+  }
+ },
+ {
+  "name": "c245",
+  "template": "{% for i in [1] %}{% continue %}{% else %}ELSE{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "ELSE"
+  }
+ },
+ {
+  "name": "c246",
+  "template": "{% for i in [1, 2] %}{% if i == 1 %}{% continue %}{% endif %}x{% else %}ELSE{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "x"
+  }
+ },
+ {
+  "name": "c247",
+  "template": "{% for i in [1, 2] %}{% if i == 2 %}{% break %}{% endif %}x{% else %}ELSE{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "x"
+  }
+ },
+ {
+  "name": "c248",
+  "template": "{% for i in range(3) %}{% set j = i * 2 %}{% endfor %}{{ j }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "c249",
+  "template": "{% for i in range(3) %}{{ loop.index }}{% for k in range(2) %}{{ loop.index }}{% endfor %}{{ loop.index }}|{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1121|2122|3123|"
+  }
+ },
+ {
+  "name": "c250",
+  "template": "{% for i in range(5) if i is odd %}{{ loop.index }}:{{ i }}{{ loop.length }}{{ loop.revindex }} {% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1:122 2:321 "
+  }
+ },
+ {
+  "name": "c251",
+  "template": "{% for c in 'héllo' %}{{ loop.index }}{{ c }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1h2é3l4l5o"
+  }
+ },
+ {
+  "name": "c252",
+  "template": "{% for k, v in {'a': 1, 'b': 2}|dictsort(reverse=true) %}{{ k }}{{ v }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "b2a1"
+  }
+ },
+ {
+  "name": "c253",
+  "template": "{% for x in [1, 2, 3] %}{{ loop.changed(x % 2) }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "TrueTrueTrue"
+  }
+ },
+ {
+  "name": "c254",
+  "template": "{% for x in range(3) %}{{ loop.cycle() }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "no items for cycling given",
+   "line": 1
+  }
+ },
+ {
+  "name": "c255",
+  "template": "{% for x in [] %}{% endfor %}{{ loop }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ""
+  }
+ },
+ {
+  "name": "c256",
+  "template": "{% for x in [1,2] %}{{ loop.nextitem is defined }}{{ loop.previtem is defined }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "TrueFalseFalseTrue"
+  }
+ },
+ {
+  "name": "c257",
+  "template": "{% for x in (y for y in []) %}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token ')', got 'for'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c258",
+  "template": "{% for i in range(2) recursive %}{{ i }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "01"
+  }
+ },
+ {
+  "name": "c259",
+  "template": "{% for i in [[1, [2]], [3]] recursive %}<{% if i is iterable %}{{ loop(i) }}{% else %}{{ i }}{{ loop.depth0 }}{% endif %}>{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<<11><<22>>><<31>>"
+  }
+ },
+ {
+  "name": "c260",
+  "template": "{% for i in range(2) %}{{ loop(range(1)) }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "The loop must have the 'recursive' marker to be called recursively.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c261",
+  "template": "{% for i in range(2) recursive %}{% if loop.depth < 3 %}[{{ loop([i]) }}]{% else %}{{ i }}{% endif %}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "[[0]][[1]]"
+  }
+ },
+ {
+  "name": "c262",
+  "template": "{% macro m(a, b, c='C', d=a) %}{{ a }}{{ b }}{{ c }}{{ d }}{% endmacro %}{{ m(1, 2) }}|{{ m(1, 2, d=4) }}|{{ m(1) }}|{{ m(b=2, a=1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "12C1|12C4|1C1|12C1"
+  }
+ },
+ {
+  "name": "c263",
+  "template": "{% macro m(a=b, b=1) %}[{{ a }}][{{ b }}]{% endmacro %}{{ m() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "[][1]"
+  }
+ },
+ {
+  "name": "c264",
+  "template": "{% macro m(*args) %}{% endmacro %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "expected token 'name', got '*'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c265",
+  "template": "{% macro m(x) %}{{ caller(x) }}{% endmacro %}{{ m(1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "No caller defined",
+   "line": 1
+  }
+ },
+ {
+  "name": "c266",
+  "template": "{% macro m() %}{{ caller() }}{% endmacro %}{{ m() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "UndefinedError",
+   "message": "No caller defined",
+   "line": 1
+  }
+ },
+ {
+  "name": "c267",
+  "template": "{% macro m(caller) %}{{ caller() }}{% endmacro %}{% call m() %}c{% endcall %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateAssertionError",
+   "message": "When defining macros or call blocks the special \"caller\" argument must be omitted or be given a default.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c268",
+  "template": "{% macro m(caller=none) %}{{ caller() if caller else 'none' }}{% endmacro %}{{ m() }}|{% call m() %}c{% endcall %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "none|c"
+  }
+ },
+ {
+  "name": "c269",
+  "template": "{% macro m() %}{{ kwargs }}{{ varargs }}{% endmacro %}{{ m(1, 2, a=3) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "{'a': 3}(1, 2)"
+  }
+ },
+ {
+  "name": "c270",
+  "template": "{% macro m(kwargs) %}{{ kwargs }}{% endmacro %}{{ m(5) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "5"
+  }
+ },
+ {
+  "name": "c271",
+  "template": "{% macro m() %}x{% endmacro %}{{ m(caller=1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "macro 'm' was invoked with two values for the special caller argument. This is most likely a bug.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c272",
+  "template": "{% macro m() %}{{ caller() }}{% endmacro %}{% call m() %}c{% endcall %}{{ m(caller=1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'int' object is not callable",
+   "line": 1
+  }
+ },
+ {
+  "name": "c273",
+  "template": "{% macro r(n) %}{% if n > 0 %}{{ n }}{{ r(n - 1) }}{% endif %}{% endmacro %}{{ r(5) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "54321"
+  }
+ },
+ {
+  "name": "c274",
+  "template": "{% macro r(n) %}{{ r(n + 1) }}{% endmacro %}{{ r(0) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "RecursionError",
+   "message": "maximum recursion depth exceeded",
+   "line": 1
+  }
+ },
+ {
+  "name": "c275",
+  "template": "{% macro a() %}{{ b() }}{% endmacro %}{% macro b() %}B{% endmacro %}{{ a() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "B"
+  }
+ },
+ {
+  "name": "c276",
+  "template": "{% macro m() %}{{ x }}{% endmacro %}{% set x = 'late' %}{{ m() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "late"
+  }
+ },
+ {
+  "name": "c277",
+  "template": "{% macro m() %}{% set x = 'inner' %}{{ x }}{% endmacro %}{% set x = 'outer' %}{{ m() }}{{ x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "innerouter"
+  }
+ },
+ {
+  "name": "c278",
+  "template": "{% for i in range(2) %}{% macro m() %}{{ i }}{% endmacro %}{{ m() }}{% endfor %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "01"
+  }
+ },
+ {
+  "name": "c279",
+  "template": "{% set ns = namespace(items=[]) %}{% for i in range(3) %}{% set ns.items = ns.items + [i] %}{% endfor %}{{ ns.items }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "[0, 1, 2]"
+  }
+ },
+ {
+  "name": "c280",
+  "template": "{% set ns = namespace(a=1, b=2) %}{{ ns.a + ns.b }}{{ ns }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "3<Namespace {'a': 1, 'b': 2}>"
+  }
+ },
+ {
+  "name": "c281",
+  "template": "{% set ns = namespace({'x': 1}) %}{{ ns.x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "c282",
+  "template": "{% set ns = namespace([('k', 2)]) %}{{ ns.k }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "2"
+  }
+ },
+ {
+  "name": "c283",
+  "template": "{% set ns = namespace() %}{% set ns.a, ns.b = 1, 2 %}{{ ns.a }}{{ ns.b }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "12"
+  }
+ },
+ {
+  "name": "c284",
+  "template": "{% set ns = namespace(n=0) %}{% macro inc() %}{% set ns.n = ns.n + 1 %}{% endmacro %}{{ inc() }}{{ inc() }}{{ ns.n }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "2"
+  }
+ },
+ {
+  "name": "c285",
+  "template": "{{ namespace(a=1).a }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1"
+  }
+ },
+ {
+  "name": "c286",
+  "template": "{{ namespace(1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'int' object is not iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "c287",
+  "template": "{% with x = 1 %}{% with y = x + 1 %}{{ x }}{{ y }}{% endwith %}{% endwith %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "12"
+  }
+ },
+ {
+  "name": "c288",
+  "template": "{% set x = 'o' %}{% with x = 'i', y = x %}{{ x }}{{ y }}{% endwith %}{{ x }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "ioo"
+  }
+ },
+ {
+  "name": "c289",
+  "template": "{% filter indent(2) %}a\nb{% endfilter %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "a\n  b"
+  }
+ },
+ {
+  "name": "c290",
+  "template": "{% filter tojson %}{{ 'x' }}{% endfilter %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "\"x\""
+  }
+ },
+ {
+  "name": "c291",
+  "template": "{% filter nosuch %}x{% endfilter %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateAssertionError",
+   "message": "No filter named 'nosuch'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c292",
+  "template": "{% set v | trim | upper %}  abc  {% endset %}[{{ v }}]",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "[ABC]"
+  }
+ },
+ {
+  "name": "c293",
+  "template": "{{ dict() }} {{ dict(a=1)|length }} {{ dict([(1, 2), (3, 4)]) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "{} 1 {1: 2, 3: 4}"
+  }
+ },
+ {
+  "name": "c294",
+  "template": "{{ dict([(1, 2, 3)]) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "ValueError",
+   "message": "dictionary update sequence element #0 has length 3; 2 is required",
+   "line": 1
+  }
+ },
+ {
+  "name": "c295",
+  "template": "{{ dict([1]) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "object is not iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "c296",
+  "template": "{{ dict(1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'int' object is not iterable",
+   "line": 1
+  }
+ },
+ {
+  "name": "c297",
+  "template": "{{ dict({'a':1}, {'b':2}) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "dict expected at most 1 argument, got 2",
+   "line": 1
+  }
+ },
+ {
+  "name": "c298",
+  "template": "{{ cycler() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "RuntimeError",
+   "message": "at least one item has to be provided",
+   "line": 1
+  }
+ },
+ {
+  "name": "c299",
+  "template": "{% set c = cycler(1, 2) %}{{ c.next() }}{{ c.next() }}{{ c.next() }}{% do c.reset() %}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateSyntaxError",
+   "message": "Encountered unknown tag 'do'.",
+   "line": 1
+  }
+ },
+ {
+  "name": "c300",
+  "template": "{% set c = cycler(1, 2) %}{{ c.next() }}{{ c.reset() }}{{ c.next() }}{{ c.items }}{{ c.pos }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "1None1(1, 2)1"
+  }
+ },
+ {
+  "name": "c301",
+  "template": "{% set j = joiner() %}{{ j() }}{{ j() }}{{ j() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": ", , "
+  }
+ },
+ {
+  "name": "c302",
+  "template": "{{ range(5)|reverse|list }} {{ range(2, -2, -1)|list }} {{ range(0, 10, 3)|length }} {{ range(-3)|list }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "[4, 3, 2, 1, 0] [2, 1, 0, -1] 4 []"
+  }
+ },
+ {
+  "name": "c303",
+  "template": "{{ range(1.5) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'float' object cannot be interpreted as an integer",
+   "line": 1
+  }
+ },
+ {
+  "name": "c304",
+  "template": "{{ range(0, 10, 0) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "ValueError",
+   "message": "range() arg 3 must not be zero",
+   "line": 1
+  }
+ },
+ {
+  "name": "c305",
+  "template": "{{ range() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "range expected at least 1 argument, got 0",
+   "line": 1
+  }
+ },
+ {
+  "name": "c306",
+  "template": "{{ range('a') }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "'str' object cannot be interpreted as an integer",
+   "line": 1
+  }
+ },
+ {
+  "name": "c307",
+  "template": "{{ raise_exception() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "_cached_compile_jinja_template.<locals>.raise_exception() missing 1 required positional argument: 'message'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c308",
+  "template": "{{ raise_exception('a', 'b') }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "_cached_compile_jinja_template.<locals>.raise_exception() takes 1 positional argument but 2 were given",
+   "line": 1
+  }
+ },
+ {
+  "name": "c309",
+  "template": "{{ raise_exception(message='kw') }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateError",
+   "message": "kw",
+   "line": 1
+  }
+ },
+ {
+  "name": "c310",
+  "template": "{{ raise_exception(5) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TemplateError",
+   "message": "5",
+   "line": 1
+  }
+ },
+ {
+  "name": "c311",
+  "template": "{{ strftime_now() }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "_cached_compile_jinja_template.<locals>.strftime_now() missing 1 required positional argument: 'format'",
+   "line": 1
+  }
+ },
+ {
+  "name": "c312",
+  "template": "{{ strftime_now(1) }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "error": "TypeError",
+   "message": "strftime() argument 1 must be str, not int",
+   "line": 1
+  }
+ },
+ {
+  "name": "c313",
+  "template": "{{ lipsum(1, false, 3, 4)|length > 0 }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "True"
+  }
+ },
+ {
+  "name": "c314",
+  "template": "{{ range }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<function safe_range at 0x0>"
+  }
+ },
+ {
+  "name": "c315",
+  "template": "{{ dict }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<transformers.utils.chat_template_utils._cached_compile_jinja_template.<locals>.TemplateDict object at 0x0>"
+  }
+ },
+ {
+  "name": "c316",
+  "template": "{{ namespace }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<class 'transformers.utils.chat_template_utils._cached_compile_jinja_template.<locals>.TemplateNamespace'>"
+  }
+ },
+ {
+  "name": "c317",
+  "template": "{{ cycler }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<class 'jinja2.utils.Cycler'>"
+  }
+ },
+ {
+  "name": "c318",
+  "template": "{{ joiner }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<class 'jinja2.utils.Joiner'>"
+  }
+ },
+ {
+  "name": "c319",
+  "template": "{{ raise_exception }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<function _cached_compile_jinja_template.<locals>.raise_exception at 0x0>"
+  }
+ },
+ {
+  "name": "c320",
+  "template": "{{ strftime_now }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<function _cached_compile_jinja_template.<locals>.strftime_now at 0x0>"
+  }
+ },
+ {
+  "name": "c321",
+  "template": "{{ lipsum }}",
+  "ctx": {
+   "y": {
+    "a": null
+   }
+  },
+  "expected": {
+   "out": "<function generate_lorem_ipsum at 0x0>"
+  }
+ }
+]
